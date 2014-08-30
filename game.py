@@ -15,8 +15,12 @@ class TheGame:
 
     def __init__(self):
         """ foo """
+        # initialize the game canvas
+        self.size = (800, 600)
+        self.screen = pygame.display.set_mode(self.size)
         self.colors = [BLUE, GREEN, RED, YELLOW]
         pygame.init()
+        self.font = pygame.font.Font(None, 60)
         self.pinned = []
         try:
             pygame.mixer.init()
@@ -27,14 +31,6 @@ class TheGame:
             noSound = True
 
         pygame.display.set_caption('Pin Avo, the Cado!')
-
-
-    def initialize_screen(self):
-        displayInfo = pygame.display.Info()
-        zoom = 1.3
-        WIDTH = int(displayInfo.current_w / zoom)
-        HEIGHT = int(displayInfo.current_h / zoom)
-        return (WIDTH, HEIGHT)
 
 
     def mute(self,mute=False,sound=True):
@@ -71,17 +67,23 @@ class TheGame:
         return self.click
 
 
-    def gameOver(self,screen,gameOverImage):
-        screen.blit(pygame.transform.scale(gameOverImage, (800, 600)), (0, 0))
+    def gameOver(self):
+        screen_width, screen_height = self.size
+        gameOverImage = pygame.image.load("img/gameOver.png")
+        gameOverText = self.font.render('GAME OVER', 0, RED)
+        gameOverImage.blit(game_over, (screen_width/3, screen_height/2))
+        self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
         pygame.display.flip()
         pygame.time.wait(3000)
+        pygame.quit()
+
 
     def keepPinned(self, avocado):
         self.pinned.append(avocado)
 
+
     def main(self):
         clock = pygame.time.Clock()
-        size = (800, 600)
         bg = pygame.image.load("img/background.png")
         desired_fps = 60
         multiplier = 3
@@ -90,19 +92,11 @@ class TheGame:
         level = 1
         levelChange = 0
         reachScore = 200
-        font = pygame.font.Font(None, 60)
         avoClick = game.loadClick()
 
-        # I don't know, should we move this text out of the way?
-        game_over = font.render('GAME OVER', 0, RED)
-        gameOverImage = pygame.image.load("img/gameOver.png")
-
-        # initialize the game canvas
-        screen = pygame.display.set_mode(size)
-
         # initialize the HUD class and the lawyer
-        the_hud = hud.Hud(screen)
-        fullegast = lawyer.Lawyer(screen)
+        the_hud = hud.Hud(self.screen)
+        fullegast = lawyer.Lawyer(self.screen)
 
         # Initial color
         color = self.chooseRandomColor()
@@ -114,12 +108,12 @@ class TheGame:
 
             time_passed = clock.tick(desired_fps)
             fps = clock.get_fps()
-            screen_width, screen_height = size
+            screen_width, screen_height = self.size
 
             if type(bg) is tuple:
-                screen.fill(bg)
+                self.screen.fill(bg)
             else:
-                screen.blit(pygame.transform.scale(bg, (800, 600)), (0, 0))
+                self.screen.blit(pygame.transform.scale(bg, (800, 600)), (0, 0))
 
             # Next level?
             if score >= reachScore:
@@ -136,18 +130,14 @@ class TheGame:
             fullegast.blitme()
 
             if levelChange > 0:
-                levelText = font.render('Level ' + str(level), 0, WHITE)
+                levelText = self.font.render('Level ' + str(level), 0, WHITE)
                 screen.blit(levelText, (screen_width / 3, screen_height / 2))
                 levelChange -= 1
 
             timeleft -= time_passed / 1000
             timeleft = round(timeleft, 2)
             if timeleft <= 0:
-                screen.blit(game_over, (screen_width/3, screen_height/2))
-                displaytime = 'Timed out!'
-                pygame.display.flip()
-                game.gameOver(screen,gameOverImage)
-                continue
+                self.gameOver()
             else:
                 displaytime = timeleft
 
@@ -162,7 +152,7 @@ class TheGame:
                     for i in range(avocados_in_game, avocadosWanted):
                         avocolor = self.chooseRandomColor()
                         avosize = (50, 50)   # should we randomize this?
-                        a = avocado.Avocado(screen, avocolor, avosize, color)
+                        a = avocado.Avocado(self.screen, avocolor, avosize, color)
                         avocados.append(a)
 
                 # Remove avocados from the list if they no longer exist
@@ -193,7 +183,6 @@ class TheGame:
                 # Had enough of this?
                 if event.type == pygame.QUIT:
                     running = False
-                    game.gameOver(screen,gameOverImage)
                     pygame.quit()
                     sys.exit()
 
