@@ -69,6 +69,11 @@ class TheGame:
         self.click = pygame.mixer.Sound("audio/click.wav")
         return self.click
 
+    def gameOver(self,screen,gameOverImage):
+        screen.blit(pygame.transform.scale(gameOverImage, (800, 600)), (0, 0))
+        pygame.display.flip()
+        pygame.time.wait(3000)
+
 
     def main(self):
         clock = pygame.time.Clock()
@@ -86,6 +91,8 @@ class TheGame:
 
         # I don't know, should we move this text out of the way?
         game_over = font.render('GAME OVER', 0, RED)
+
+        gameOverImage = pygame.image.load("img/gameOver.png")
 
         # initialize the game canvas
         screen = pygame.display.set_mode(size)
@@ -135,6 +142,7 @@ class TheGame:
                 screen.blit(game_over, (screen_width/3, screen_height/2))
                 displaytime = 'Timed out!'
                 pygame.display.flip()
+                game.gameOver(screen,gameOverImage)
                 continue
             else:
                 displaytime = timeleft
@@ -178,6 +186,7 @@ class TheGame:
                 # Had enough of this?
                 if event.type == pygame.QUIT:
                     running = False
+                    game.gameOver(screen,gameOverImage)
                     pygame.quit()
                     sys.exit()
 
