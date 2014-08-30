@@ -7,8 +7,11 @@ class Avocado:
 
     def __init__(self, screen, color, size, select, sound=True, filename='img/AvoCado_0.png'):
         # We randomly decide whether we should instanciate or not
+        # I'd rather just not return an instance,
+        # but I don't know how to do that :(
         if random.randint(0,1) == 0:
             self.is_falling = False
+            self.has_been_pinned = False
             return None
 
         print('New avocado is ' + ','.join(str(color)))
@@ -31,6 +34,7 @@ class Avocado:
         self.vx = 10
         self.vy = 10
         self.is_falling = True
+        self.has_been_pinned = False
 
 
     def blitme(self):
@@ -42,24 +46,24 @@ class Avocado:
         self.rect.y = random.randint(20, 70)
 
 
-    def collides(self, click):
+    def isHit(self, click):
         """
         Checks whether this object collides with the given position
-        in click
+        of a mouse-click
         """
         mousex, mousey = click
         if self.rect.left < mousex and self.rect.right > mousex and \
-                self.rect.top < mousey and self.rect.bottom > mousey and \
-				self.color == self.select:
-            self.destroy()
-            return True
+            self.rect.top < mousey and self.rect.bottom > mousey:
 
-    def destroy(self):
-        """destroys this object"""
-        del(self)
+            if self.color == self.select:
+                self.has_been_pinned = True
+                return True
+            else:
+                return False
+
 
     def exists(self):
-        return self.is_falling
+        return not self.has_been_pinned and self.is_falling
 
 
     def move(self):
@@ -79,6 +83,7 @@ class Avocado:
             self.is_falling = False
             print('platch')
             return True
+
 
     def mute(self,mute=False):
         if not sound:
@@ -109,3 +114,6 @@ class Avocado:
             return
         self.click = pygame.mixer.Sound("audio/click.wav")
         return self.click
+
+    def destroy(self):
+        del(self)

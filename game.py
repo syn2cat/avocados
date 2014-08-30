@@ -10,6 +10,7 @@ from pygame.locals import *
 from support.colors import *
 from interface import hud
 
+
 def initialize_screen():
     displayInfo = pygame.display.Info()
     zoom = 1.3
@@ -77,8 +78,6 @@ def main():
 
         timeleft -= time_passed / 1000
         timeleft = round(timeleft, 2)
-
-
         if timeleft <= 0:
             screen_width, screen_height = size
             screen.blit(game_over, (screen_width/3, screen_height/2))
@@ -101,6 +100,8 @@ def main():
                 a = avocado.Avocado(screen, avocolor, avosize, color, noSound)
                 avocados.append(a)
 
+        # Remove avocados from the list if they no longer exist
+        # E.g. have been pinned or fallen down
         avocados[:] = [ x for x in avocados if x.exists() ]
         for a in avocados:
             a.move()
@@ -111,9 +112,12 @@ def main():
             # Collision detection
             if event.type == MOUSEBUTTONDOWN:
                 for avo in avocados:
-                    if avo.collides(pygame.mouse.get_pos()):
+                    hit = avo.isHit(pygame.mouse.get_pos())
+                    if hit:
                         score += 100
-                        avo.init_pos()
+                    elif hit == False:
+                        score -= 50
+
             # Had enough of this?
             if event.type == pygame.QUIT:
                 running = False
