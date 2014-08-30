@@ -20,7 +20,7 @@ def main():
     screen_height = 600
     screen = pygame.display.set_mode((screen_width,screen_height))
     bg = BLACK
-    desired_fps = 60
+    desired_fps = 5
 
     font = pygame.font.Font(None, 40)
     game_over = font.render('GAME OVER', 0, RED)
@@ -55,6 +55,12 @@ def main():
         for i in range(0, level):
             a = avocado.Avocado((screen_width, screen_height))
             avocados.append(a)
+
+        has_moved = False
+        for a in avocados:
+            if a.move():
+                has_moved = True
+            screen.blit(a.image, a.pycard)
 
         # Catch events
         for event in pygame.event.get():
