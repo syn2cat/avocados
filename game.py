@@ -18,8 +18,14 @@ class TheGame:
         pygame.init()
         pygame.display.set_caption('Pin Avo, the Cado!')
 
+        displayInfo = pygame.display.Info()
+        self.resize = 1.3
+
+        self.WIDTH = int(displayInfo.current_w / self.resize)
+        self.HEIGHT = int(displayInfo.current_h / self.resize)
+
         # initialize the game canvas
-        self.size = (800, 600)
+        self.size = (self.WIDTH, self.HEIGHT)
         self.screen = pygame.display.set_mode(self.size)
         self.colors = [BLUE, GREEN, RED, YELLOW]
         self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
