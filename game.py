@@ -69,6 +69,7 @@ class TheGame:
         self.click = pygame.mixer.Sound("audio/click.wav")
         return self.click
 
+
     def gameOver(self,screen,gameOverImage):
         screen.blit(pygame.transform.scale(gameOverImage, (800, 600)), (0, 0))
         pygame.display.flip()
@@ -79,7 +80,7 @@ class TheGame:
         clock = pygame.time.Clock()
         size = (800, 600)
         bg = pygame.image.load("img/background.png")
-        desired_fps = 15
+        desired_fps = 60
         multiplier = 3
         score = 0
         time = timeleft = 30

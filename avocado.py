@@ -31,8 +31,9 @@ class Avocado:
 
         # Set the avocado's initial position and velocity
         self.init_pos()
-        self.vx = 10
-        self.vy = 10
+        self.vx = 2
+        self.vy = 4
+
         self.is_falling = True
         self.has_been_pinned = False
 
