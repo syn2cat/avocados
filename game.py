@@ -5,8 +5,8 @@ Avocados and stuff
 
 import os, random
 import pygame
+import avocado
 from pygame.locals import *
-
 from support.colors import *
 from interface import hud
 
@@ -28,6 +28,7 @@ def main():
 
     score = 0
     time = 15
+    level = 1
 
     running = True
     timeleft = time
@@ -49,10 +50,18 @@ def main():
         chud = my_hud.draw_hud(score, displaytime, round(fps,2))
         screen.blit(chud, (10,10))
 
+        # Initialize a number of avocados, depending on the level
+        avocados = []
+        for i in range(0, level):
+            a = avocado.Avocado((screen_width, screen_height))
+            avocados.append(a)
+
         # Catch events
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONDOWN:
-                score += 100
+                for avo in avocados:
+                    if avo.collides(pygame.mouse.get_pos()):
+                        score += 100
             if event.type == pygame.QUIT:
                 running = False
 
