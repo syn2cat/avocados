@@ -14,23 +14,27 @@ from interface import hud
 class TheGame:
 
     def __init__(self):
-        """ foo """
+        """ Initialize the game """
+        pygame.init()
+        pygame.display.set_caption('Pin Avo, the Cado!')
+
         # initialize the game canvas
         self.size = (800, 600)
         self.screen = pygame.display.set_mode(self.size)
         self.colors = [BLUE, GREEN, RED, YELLOW]
-        pygame.init()
+
+        # fonts
         self.big = pygame.font.Font(None, 90)
+
         self.pinned = []
+
         try:
             pygame.mixer.init()
             pygame.mixer.music.set_volume(0.5)
-            noSound = False
+            sound = True
         except:
             print("Y U NO sound? :(")
-            noSound = True
-
-        pygame.display.set_caption('Pin Avo, the Cado!')
+            sound = False
 
 
     def mute(self,mute=False, sound=True):
@@ -77,6 +81,7 @@ class TheGame:
         self.fade()
         pygame.time.wait(3000)
         pygame.quit()
+        sys.exit()
 
 
     def keepPinned(self, avocado):
@@ -93,20 +98,20 @@ class TheGame:
         level = 1
         levelChange = 0
         reachScore = 200
-        avoClick = game.loadClick()
+        avoClick = self.loadClick()
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
         fullegast = lawyer.Lawyer(self.screen)
 
-        # Initial color
+        # Initial color indication
         color = self.chooseRandomColor()
         fullegast.setColor(color)
 
-        avocados = []
+        avocados = []   # We could use this for redrawing only this part
         running = True
-        while running:
 
+        while running:
             time_passed = clock.tick(desired_fps)
             fps = clock.get_fps()
             screen_width, screen_height = self.size
@@ -132,7 +137,7 @@ class TheGame:
 
             if levelChange > 0:
                 levelText = self.big.render('Level ' + str(level), 0, WHITE)
-                screen.blit(levelText, (screen_width / 3, screen_height / 2))
+                self.screen.blit(levelText, (screen_width / 3, screen_height / 2))
                 levelChange -= 1
 
             timeleft -= time_passed / 1000
