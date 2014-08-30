@@ -3,7 +3,7 @@
 Avocados and stuff
 """
 
-import os, random
+import os, random, sys
 import pygame
 import avocado, lawyer
 from pygame.locals import *
@@ -125,6 +125,8 @@ class TheGame:
                 # Had enough of this?
                 if event.type == pygame.QUIT:
                     running = False
+                    pygame.quit()
+                    sys.exit()
 
             pygame.display.flip()
 
