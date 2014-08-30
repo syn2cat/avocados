@@ -7,19 +7,20 @@ from support import operations
 
 class Hud:
 
-    def __init__(self, screensize):
-        self.screen_width, self.screen_height = screensize
+    def __init__(self, screen):
+        self.screen = screen
+        self.screen_width, self.screen_height = screen.get_size()
         self.font = pygame.font.Font(None, 30)
-        self.screen = pygame.Surface((self.screen_width, self.screen_height / 8))
+        self.hud = pygame.Surface((self.screen_width, self.screen_height / 8))
 
     def draw_hud(self, score, timeleft, fps):
-        self.screen.fill(BLACK)
-        self.screen.blit(self.draw_score(score), (0, 0))
-        self.screen.blit(self.draw_timeleft(timeleft), (self.screen_width / 2, 0))
+        self.hud.fill(BLACK)
+        self.hud.blit(self.draw_score(score), (0, 0))
+        self.hud.blit(self.draw_timeleft(timeleft), (self.screen_width / 2, 0))
         thefps = self.draw_fps(fps)
         fps_rect = thefps.get_rect()
-        self.screen.blit(thefps, (self.screen_width - fps_rect.w, 0))
-        return self.screen
+        self.hud.blit(thefps, (self.screen_width - fps_rect.w, 0))
+        self.blitme()
 
     def draw_score(self, score):
         score = self.font.render('Score: ' + str(score), 0, WHITE)
@@ -38,3 +39,6 @@ class Hud:
 
     def draw_fps(self, fps):
         return self.font.render('fps: ' + str(fps), 10, RED)
+
+    def blitme(self):
+        self.screen.blit(self.hud, (10, 10))

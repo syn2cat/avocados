@@ -21,7 +21,7 @@ def initialize_screen():
 
 def main():
     pygame.init()
-    pygame.display.set_caption('Pin the Avocados!')
+    pygame.display.set_caption('Pin Avo, the Cado!')
     clock = pygame.time.Clock()
 
     # initialize_screen() won't work for dualscreen
@@ -37,11 +37,14 @@ def main():
     # initialize the game canvas
     screen = pygame.display.set_mode(size)
 
-    # initialize the HUD class
-    my_hud = hud.Hud(size)
-
-    # initialize our lawyer
+    # initialize the HUD class and the lawyer
+    the_hud = hud.Hud(screen)
     fullegast = lawyer.Lawyer(screen)
+    # Well, we want this to select between several colors, so we need a list
+    # of colors, right?
+    colors = [BLUE, GREEN, RED, YELLOW]
+    selected = random.randint(0,3)
+    color = colors[selected]
 
     score = 0
     time = 15
@@ -55,7 +58,8 @@ def main():
         fps = clock.get_fps()
         screen.fill(bg)
 
-        # Let's add the lawyer
+        # Let's add the lawyer and have him announce a color
+        fullegast.setColor(color)
         fullegast.blitme()
 
         timeleft -= time_passed / 1000
@@ -69,14 +73,14 @@ def main():
             displaytime = timeleft
 
         # Redraw the HUD
-        chud = my_hud.draw_hud(score, displaytime, round(fps, 2))
-        screen.blit(chud, (10, 10))
+        the_hud.draw_hud(score, displaytime, round(fps, 2))
 
         # Initialize a number of avocados, depending on the level
         if len(avocados) != level:
             avocados = []
             for i in range(0, level):
-                a = avocado.Avocado(size)
+                color = colors[random.randint(0,3)]
+                a = avocado.Avocado(screen, color)
                 avocados.append(a)
 
         for a in avocados:

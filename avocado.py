@@ -5,8 +5,9 @@ import random
 
 class Avocado:
 
-    def __init__(self, screensize, filename='img/AvoCado_0.png'):
-        self.screen_width, self.screen_height = screensize
+    def __init__(self, screen, color, filename='img/AvoCado_0.png'):
+        print('New avocado is ' + ','.join(str(color)))
+        self.screen_width, self.screen_height = screen.get_size()
         self.x = random.randint(0, self.screen_width)
         self.y = 0  # change this to start somewhere above the screen
         self.w = 100
@@ -43,7 +44,6 @@ class Avocado:
             print('platch')
             return False
             self.is_falling = False
-        print(self.pycard.x, self.pycard.y)
         self.pycard.x += self.step_x
         self.pycard.y += self.step_y
         return True
