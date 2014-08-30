@@ -16,7 +16,57 @@ class TheGame:
     def __init__(self):
         """ foo """
         self.colors = [BLUE, GREEN, RED, YELLOW]
+        pygame.init()
+        try:
+            pygame.mixer.init()
+            pygame.mixer.music.set_volume(0.5)
+            noSound = False
+        except:
+            print("Y U NO sound? :(")
+            noSound = True
 
+        pygame.display.set_caption('Pin Avo, the Cado!')
+
+    def initialize_screen(self):
+        displayInfo = pygame.display.Info()
+        zoom = 1.3
+        WIDTH = int(displayInfo.current_w / zoom)
+        HEIGHT = int(displayInfo.current_h / zoom)
+        return (WIDTH, HEIGHT)
+
+
+    def mute(self,mute=False,sound=True):
+        if not sound:
+            return
+        if mute:
+            pygame.mixer.music.set_volume(0.0)
+        else:
+            pygame.mixer.music.set_volume(0.5)
+
+
+    def playLevel(self,lvl=1,sound=True):
+        if not sound:
+            return
+        if lvl == 1:
+            pygame.mixer.music.load("""audio/level1.wav""")
+        elif lvl == 2:
+            pygame.mixer.music.load("""audio/level2.wav""")
+        elif lvl == 3:
+            pygame.mixer.music.load("""audio/level3.wav""")
+        pygame.mixer.music.play()
+
+
+    def fade(self, sound=True):
+        if not sound:
+            return
+        pygame.mixer.music.fadeout(3000)
+
+
+    def loadClick(self, sound=True):
+        if not sound:
+            return
+        self.click = pygame.mixer.Sound("audio/click.wav")
+        return self.click
 
     def main(self):
         pygame.init()
@@ -34,7 +84,7 @@ class TheGame:
         size = (800, 600)
         bg = pygame.image.load("img/background.png")
         desired_fps = 15
-        multiplier = 6
+        multiplier = 3
         score = 0
         time = timeleft = 30
         level = 1
@@ -74,6 +124,7 @@ class TheGame:
                 score = 0
                 level += 1
                 levelChange = 35
+                timeleft = time
                 avocados = []
                 print('DEBUG :: Level ' + str(level))
 
@@ -106,7 +157,7 @@ class TheGame:
                     for i in range(avocados_in_game, avocadosWanted):
                         avocolor = self.chooseRandomColor()
                         avosize = (50, 50)   # should we randomize this?
-                        a = avocado.Avocado(screen, avocolor, avosize, color, noSound)
+                        a = avocado.Avocado(screen, avocolor, avosize, color)
                         avocados.append(a)
 
                 # Remove avocados from the list if they no longer exist
@@ -146,4 +197,5 @@ class TheGame:
 
 if __name__ == '__main__':
     game = TheGame()
+    game.playLevel()
     game.main()
