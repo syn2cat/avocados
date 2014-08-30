@@ -5,7 +5,7 @@ Avocados and stuff
 
 import os, random, sys
 import pygame
-import avocado, lawyer
+import avocado, crystal
 from pygame.locals import *
 from support.colors import *
 from interface import hud
@@ -100,13 +100,12 @@ class TheGame:
         reachScore = 200
         avoClick = self.loadClick()
 
-        # initialize the HUD class and the lawyer
+        # initialize the HUD class and the lawyers crystal ball
         the_hud = hud.Hud(self.screen)
-        fullegast = lawyer.Lawyer(self.screen)
+        crystalBall = crystal.Crystal(self.screen)
 
         # Initial color indication
         color = self.chooseRandomColor()
-        fullegast.setColor(color)
 
         avocados = []   # We could use this for redrawing only this part
         running = True
@@ -132,9 +131,6 @@ class TheGame:
                 print('DEBUG :: Level ' + str(level))
                 game.playLevel(level)
 
-            # Let's add the lawyer
-            fullegast.blitme()
-
             if levelChange > 0:
                 levelText = self.big.render('Level ' + str(level), 0, WHITE)
                 self.screen.blit(levelText, (screen_width / 3, screen_height / 2))
@@ -149,6 +145,7 @@ class TheGame:
 
             # Redraw the HUD
             the_hud.draw_hud(score, displaytime, round(fps, 2))
+            crystalBall.setColor(color)
 
             # Initialize a number of avocados, depending on the level
             if levelChange == 0:
@@ -182,7 +179,7 @@ class TheGame:
                         if hit:
                             score += 100
                             color = self.chooseRandomColor()
-                            fullegast.setColor(color)
+                            crystalBall.setColor(color)
                         elif hit == False:
                             score -= 50
 
