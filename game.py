@@ -21,7 +21,6 @@ class TheGame:
     def initialize_screen(self):
         displayInfo = pygame.display.Info()
         zoom = 1.3
-
         WIDTH = int(displayInfo.current_w / zoom)
         HEIGHT = int(displayInfo.current_h / zoom)
         return (WIDTH, HEIGHT)
@@ -59,15 +58,16 @@ class TheGame:
 
         # Initial color
         color = self.chooseRandomColor()
+        fullegast.setColor(color)
 
         score = 0
-        time = 15
+        time = timeleft = 15
         level = 5
 
-        running = True
-        timeleft = time
         avocados = []
+        running = True
         while running:
+
             time_passed = clock.tick(desired_fps)
             fps = clock.get_fps()
             if type(bg) is tuple:
@@ -75,8 +75,7 @@ class TheGame:
             else:
                 screen.blit(pygame.transform.scale(bg,(800,600)),(0,0))
 
-            # Let's add the lawyer and have him announce a color
-            fullegast.setColor(color)
+            # Let's add the lawyer
             fullegast.blitme()
 
             timeleft -= time_passed / 1000
@@ -95,7 +94,6 @@ class TheGame:
 
             # Initialize a number of avocados, depending on the level
             avocados_in_game = len(avocados)
-            print(avocados_in_game)
             if avocados_in_game != level:
                 for i in range(avocados_in_game, level):
                     avocolor = self.chooseRandomColor()
@@ -107,6 +105,7 @@ class TheGame:
             # E.g. have been pinned or fallen down
             avocados[:] = [ x for x in avocados if x.exists() ]
             for a in avocados:
+                a.updateTargetColor(color)
                 a.move()
                 a.blitme()
 
@@ -118,6 +117,8 @@ class TheGame:
                         hit = avo.isHit(pygame.mouse.get_pos())
                         if hit:
                             score += 100
+                            color = self.chooseRandomColor()
+                            fullegast.setColor(color)
                         elif hit == False:
                             score -= 50
 
