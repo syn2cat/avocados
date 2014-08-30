@@ -28,7 +28,7 @@ def main():
     #size = initialize_screen()
     size = (800, 600)
     bg = BLACK
-    desired_fps = 60
+    desired_fps = 10
     font = pygame.font.Font(None, 40)
 
     # I don't know, should we move this text out of the way?
@@ -44,7 +44,7 @@ def main():
     # Well, we want this to select between several colors, so we need a list
     # of colors, right?
     colors = [BLUE, GREEN, RED, YELLOW]
-    selected = random.randint(0,3)
+    selected = random.randint(0, 3)
     color = colors[selected]
 
     score = 0
@@ -77,18 +77,19 @@ def main():
         the_hud.draw_hud(score, displaytime, round(fps, 2))
 
         # Initialize a number of avocados, depending on the level
-        if len(avocados) != level:
-            avocados = []
-            for i in range(0, level):
-                color = colors[random.randint(0,3)]
-                avosize = (60,60)   # should we randomize this?
-                a = avocado.Avocado(screen, color, avosize)
+        avocados_in_game = len(avocados)
+        print(avocados_in_game)
+        if avocados_in_game != level:
+            for i in range(avocados_in_game, level):
+                avocolor = colors[random.randint(0, 3)]
+                avosize = (50, 50)   # should we randomize this?
+                a = avocado.Avocado(screen, avocolor, avosize, color)
                 avocados.append(a)
 
+        avocados[:] = [ x for x in avocados if x.exists() ]
         for a in avocados:
-            if not a.move():
-                a.init_pos()
-            screen.blit(a.image, a.pycard)
+            a.move()
+            a.blitme()
 
         # Catch events
         for event in pygame.event.get():
