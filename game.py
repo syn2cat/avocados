@@ -117,6 +117,9 @@ def main():
                         score += 100
                     elif hit == False:
                         score -= 50
+            if event.type == MOUSEMOTION:
+                # implement pin who follows mouse here
+                pass
 
             # Had enough of this?
             if event.type == pygame.QUIT:
