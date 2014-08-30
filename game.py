@@ -20,7 +20,7 @@ class TheGame:
         self.screen = pygame.display.set_mode(self.size)
         self.colors = [BLUE, GREEN, RED, YELLOW]
         pygame.init()
-        self.font = pygame.font.Font(None, 60)
+        self.big = pygame.font.Font(None, 90)
         self.pinned = []
         try:
             pygame.mixer.init()
@@ -33,7 +33,7 @@ class TheGame:
         pygame.display.set_caption('Pin Avo, the Cado!')
 
 
-    def mute(self,mute=False,sound=True):
+    def mute(self,mute=False, sound=True):
         if not sound:
             return
         if mute:
@@ -70,8 +70,8 @@ class TheGame:
     def gameOver(self):
         screen_width, screen_height = self.size
         gameOverImage = pygame.image.load("img/gameOver.png")
-        gameOverText = self.font.render('GAME OVER', 0, RED)
-        gameOverImage.blit(game_over, (screen_width/3, screen_height/2))
+        gameOverText = self.big.render('GAME OVER', 0, YELLOW)
+        gameOverImage.blit(gameOverText, (screen_width/8, screen_height/6))
         self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
         pygame.display.flip()
         pygame.time.wait(3000)
@@ -130,7 +130,7 @@ class TheGame:
             fullegast.blitme()
 
             if levelChange > 0:
-                levelText = self.font.render('Level ' + str(level), 0, WHITE)
+                levelText = self.big.render('Level ' + str(level), 0, WHITE)
                 screen.blit(levelText, (screen_width / 3, screen_height / 2))
                 levelChange -= 1
 
