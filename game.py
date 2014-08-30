@@ -78,11 +78,17 @@ def main():
 
         timeleft -= time_passed / 1000
         timeleft = round(timeleft, 2)
+
         if timeleft <= 0:
             screen_width, screen_height = size
             screen.blit(game_over, (screen_width/3, screen_height/2))
             displaytime = 'Timed out!'
+            # Redraw the HUD
+            the_hud.draw_hud(score, displaytime, round(fps, 2))
             pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
             continue
         else:
             displaytime = timeleft
