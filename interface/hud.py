@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import pygame
+import os, pygame
 from pygame.locals import *
 from support.colors import *
 
@@ -25,9 +25,22 @@ class Hud:
         return score
 
     def draw_timeleft(self, time):
-        # Add a clock icon here (maybe egg-clock)
+        # Not sure this is clever, to recreate the surface each time ;)
+        timesurface = pygame.Surface((200, 20))
+        hourglass = pygame.image.load(os.path.join('img', 'hourglass.png')).convert_alpha()
+        hourglass = pygame.transform.scale(hourglass, (15, 18))
+        self.color_surface(hourglass, WHITE)
         time = self.font.render(str(time), 1, WHITE)
-        return time
+        timesurface.blit(hourglass, (0, 0))
+        timesurface.blit(time, (40, 0))
+        return timesurface
 
     def draw_fps(self, fps):
         return self.font.render('fps: ' + str(fps), 10, RED)
+
+    def color_surface(self,surface, color):
+        red, green, blue = color
+        arr = pygame.surfarray.pixels3d(surface)
+        arr[:,:,0] = red
+        arr[:,:,1] = green
+        arr[:,:,2] = blue
