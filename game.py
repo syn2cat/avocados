@@ -28,6 +28,12 @@ class TheGame:
 
         self.pinned = []
 
+        # Set splashscreen
+        splashScreen = pygame.image.load("img/splashScreen.png")
+        self.screen.blit(pygame.transform.scale(splashScreen, self.size), (0, 0))
+        pygame.display.flip()
+        pygame.time.wait(3000)
+
         try:
             pygame.mixer.init()
             pygame.mixer.music.set_volume(0.5)
