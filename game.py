@@ -22,9 +22,10 @@ class TheGame:
         self.size = (800, 600)
         self.screen = pygame.display.set_mode(self.size)
         self.colors = [BLUE, GREEN, RED, YELLOW]
+        self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
 
         # fonts
-        self.big = pygame.font.Font(None, 90)
+        self.bigFont = pygame.font.Font(None, 90)
 
         self.pinned = []
 
@@ -74,11 +75,11 @@ class TheGame:
     def gameOver(self):
         screen_width, screen_height = self.size
         gameOverImage = pygame.image.load("img/gameOver.png")
-        gameOverText = self.big.render('GAME OVER', 0, YELLOW)
-        gameOverImage.blit(gameOverText, (screen_width/8, screen_height/6))
+        gameOverText = self.bigFont.render('GAME OVER', 0, YELLOW)
+        gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
         self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
         pygame.display.flip()
-        self.fade()
+        self.fade() # Fade the music
         pygame.time.wait(3000)
         pygame.quit()
         sys.exit()
@@ -88,16 +89,20 @@ class TheGame:
         self.pinned.append(avocado)
 
 
+    def drawBackground(self):
+        if type(self.bg) is tuple:
+            self.screen.fill(self.bg)
+        else:
+            self.screen.blit(pygame.transform.scale(self.bg, self.size), (0, 0))
+
+
     def main(self):
         clock = pygame.time.Clock()
-        bg = pygame.image.load("img/lawyerCrystalBall.png")
         desired_fps = 60
         multiplier = 3
-        score = 0
         time = timeleft = 30
         level = 1
         levelChange = 0
-        reachScore = 200
         avoClick = self.loadClick()
 
         # initialize the HUD class and the lawyer
@@ -108,7 +113,9 @@ class TheGame:
         color = self.chooseRandomColor()
         fullegast.setColor(color)
 
-        avocados = []   # We could use this for redrawing only this part
+        # We could use this list for redrawing only this part
+        # of the screen install of all of it
+        avocados = []
         running = True
 
         while running:
@@ -116,27 +123,23 @@ class TheGame:
             fps = clock.get_fps()
             screen_width, screen_height = self.size
 
-            if type(bg) is tuple:
-                self.screen.fill(bg)
-            else:
-                self.screen.blit(pygame.transform.scale(bg, self.size), (0, 0))
+            # Redraw the background and put our lawyer back on top
+            self.drawBackground()
+            fullegast.blitme()
 
             # Next level?
-            if score >= reachScore:
-                score = 0
+            if score >= targetScore:
+                self.score = 0
                 level += 1
-                levelChange = 35
+                pauseFor = 35
                 timeleft = time
                 avocados = []
                 self.pinned = []
                 print('DEBUG :: Level ' + str(level))
-                game.playLevel(level)
-
-            # Let's add the lawyer
-            fullegast.blitme()
+                self.playLevel(level)
 
             if levelChange > 0:
-                levelText = self.big.render('Level ' + str(level), 0, WHITE)
+                levelText = self.bigFont.render('Level ' + str(level), 0, WHITE)
                 self.screen.blit(levelText, (screen_width / 3, screen_height / 2))
                 levelChange -= 1
 
