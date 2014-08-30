@@ -82,6 +82,7 @@ class TheGame:
         time = timeleft = 30
         level = 1
         font = pygame.font.Font(None, 40)
+        avoClick = game.loadClick()
 
         # I don't know, should we move this text out of the way?
         game_over = font.render('GAME OVER', 0, RED)
@@ -154,6 +155,7 @@ class TheGame:
             for event in pygame.event.get():
                 # Collision detection
                 if event.type == MOUSEBUTTONDOWN:
+                    avoClick.play()
                     for avo in avocados:
                         hit = avo.isHit(pygame.mouse.get_pos())
                         if hit:
