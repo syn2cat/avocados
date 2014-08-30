@@ -12,7 +12,7 @@ class Avocado:
         # I'd rather just not return an instance,
         # but I don't know how to do that :(
         if random.randint(0,40) != 1:
-            self.is_falling = False
+            self.is_still_falling = False
             self.has_been_pinned = False
             return None
 
@@ -34,8 +34,12 @@ class Avocado:
         self.vx = 2
         self.vy = 4
 
-        self.is_falling = True
+        # Avocado state
+        self.is_still_falling = True
         self.has_been_pinned = False
+
+        # Avocado sounds
+        self.click = self.loadClick()
 
 
     def setTargetColor(self, targetColor):
@@ -62,6 +66,8 @@ class Avocado:
         if self.rect.left < mousex and self.rect.right > mousex and \
             self.rect.top < mousey and self.rect.bottom > mousey:
 
+            self.click.play()
+
             if self.color == self.target:
                 self.has_been_pinned = True
                 return True
@@ -70,7 +76,12 @@ class Avocado:
 
 
     def exists(self):
-        return not self.has_been_pinned and self.is_falling
+        # return not self.has_been_pinned and self.is_still_falling
+        return self.is_still_falling
+
+
+    def isPinned(self):
+        return self.has_been_pinned
 
 
     def move(self):
@@ -88,9 +99,15 @@ class Avocado:
 
     def hasLanded(self):
         if self.rect.bottom > self.screen_height or self.rect.top < 0:
-            self.is_falling = False
+            self.is_still_falling = False
             print('DEBUG :: splatsh!')
             return True
+
+
+    def loadClick(self, sound=True):
+        if not sound:
+            return
+        return pygame.mixer.Sound("audio/click.wav")
 
 
     def destroy(self):
