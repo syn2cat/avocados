@@ -37,7 +37,7 @@ class Avocado:
         self.has_been_pinned = False
 
 
-    def updateTargetColor(self, targetColor):
+    def setTargetColor(self, targetColor):
         self.target = targetColor
 
 
@@ -87,7 +87,7 @@ class Avocado:
     def hasLanded(self):
         if self.rect.bottom > self.screen_height or self.rect.top < 0:
             self.is_falling = False
-            print('platch')
+            print('DEBUG :: splatsh!')
             return True
 
 
