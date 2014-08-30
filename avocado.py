@@ -76,8 +76,8 @@ class Avocado:
 
 
     def exists(self):
-        # return not self.has_been_pinned and self.is_still_falling
-        return self.is_still_falling
+        return not self.has_been_pinned and self.is_still_falling
+        # return self.is_still_falling
 
 
     def isPinned(self):
@@ -100,7 +100,7 @@ class Avocado:
     def hasLanded(self):
         if self.rect.bottom > self.screen_height or self.rect.top < 0:
             self.is_still_falling = False
-            print('DEBUG :: splatsh!')
+            print('DEBUG :: splash!')
             return True
 
 

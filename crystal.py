@@ -15,8 +15,9 @@ class Crystal:
         self.imageCenterX = self.screen.get_rect().centerx
         self.imageCenterY = self.screen.get_rect().centery
 
+    def blitme(self):
+        pygame.draw.ellipse(self.screen, self.color, (self.imageCenterX-158,self.imageCenterY-5,277,217), 0)
+
     def setColor(self, color):
-        """ Announces the color to pin by drawing a rectangle
-        and filling it with a color """
-        pygame.draw.ellipse(self.screen, (color), (self.imageCenterX-158,self.imageCenterY-5,277,217), 0)
-        print("Drawing {} ellipse".format(color))
+        self.color = color
+

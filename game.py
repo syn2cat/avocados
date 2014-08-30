@@ -121,6 +121,7 @@ class TheGame:
 
         # Initial color indication
         color = self.chooseRandomColor()
+        crystalBall.setColor(color)
 
         # We could use this list for redrawing only this part
         # of the screen install of all of it
@@ -134,11 +135,12 @@ class TheGame:
 
             # Redraw the background and put our lawyer back on top
             self.drawBackground()
+            crystalBall.blitme()
 
             # Next level?
-            if (score * level) >= (targetScore * level):
+            if score >= (targetScore * level):
                 level += 1
-                levelChange = 35
+                levelChange = 70
                 timeleft = time
                 avocados = []
                 print('DEBUG :: Score: ' + str(score))
@@ -159,7 +161,6 @@ class TheGame:
 
             # Redraw the HUD
             the_hud.draw_hud(score, displaytime, round(fps, 2))
-            crystalBall.setColor(color)
 
             # If we're not currently in between levels…
             if levelChange == 0:
