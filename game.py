@@ -26,6 +26,40 @@ class TheGame:
         return (WIDTH, HEIGHT)
 
 
+    def mute(self,mute=False,sound=True):
+        if not sound:
+            return
+        if mute:
+            pygame.mixer.music.set_volume(0.0)
+        else:
+            pygame.mixer.music.set_volume(0.5)
+
+
+    def playLevel(self,lvl=1,sound=True):
+        if not sound:
+            return
+        if lvl == 1:
+            pygame.mixer.music.load("""audio/level1.wav""")
+        elif lvl == 2:
+            pygame.mixer.music.load("""audio/level2.wav""")
+        elif lvl == 3:
+            pygame.mixer.music.load("""audio/level3.wav""")
+        pygame.mixer.music.play()
+
+
+    def fade(self, sound=True):
+        if not sound:
+            return
+        pygame.mixer.music.fadeout(3000)
+
+
+    def loadClick(self, sound=True):
+        if not sound:
+            return
+        self.click = pygame.mixer.Sound("audio/click.wav")
+        return self.click
+
+
     def main(self):
         pygame.init()
         try:
@@ -106,7 +140,7 @@ class TheGame:
                 for i in range(avocados_in_game, avocadosWanted):
                     avocolor = self.chooseRandomColor()
                     avosize = (50, 50)   # should we randomize this?
-                    a = avocado.Avocado(screen, avocolor, avosize, color, noSound)
+                    a = avocado.Avocado(screen, avocolor, avosize, color)
                     avocados.append(a)
 
             # Remove avocados from the list if they no longer exist
