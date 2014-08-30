@@ -5,7 +5,9 @@ from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, size, select, sound=True, filename='img/AvoCado_0.png'):
+    def __init__(self, screen, color, size, target, sound=True, filename='img/AvoCado_0.png'):
+
+        # HELP please!!
         # We randomly decide whether we should instanciate or not
         # I'd rather just not return an instance,
         # but I don't know how to do that :(
@@ -14,14 +16,12 @@ class Avocado:
             self.has_been_pinned = False
             return None
 
-        print('New avocado is ' + ','.join(str(color)))
+        # Set up our instance variables
         self.screen = screen
         self.color = color
-        self.select = select
+        self.target = target
         self.screen_width, self.screen_height = screen.get_size()
-        self.x = random.randint(0, self.screen_width)
-        self.y = 0  # change this to start somewhere above the screen
-        self.w , self.y = size
+        self.w, self.y = size
 
         # Initialize the image
         self.i = pygame.image.load(filename).convert_alpha()
@@ -36,6 +36,9 @@ class Avocado:
         self.is_falling = True
         self.has_been_pinned = False
 
+    def updateTargetColor(self, targetColor):
+        self.target = targetColor
+
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -49,13 +52,15 @@ class Avocado:
     def isHit(self, click):
         """
         Checks whether this object collides with the given position
-        of a mouse-click
+        of a mouse-click. Return true is the correct color was hit and
+        false if it was the wrong one.
+        Just returns void if no avocado was hit
         """
         mousex, mousey = click
         if self.rect.left < mousex and self.rect.right > mousex and \
             self.rect.top < mousey and self.rect.bottom > mousey:
 
-            if self.color == self.select:
+            if self.color == self.target:
                 self.has_been_pinned = True
                 return True
             else:
@@ -93,6 +98,7 @@ class Avocado:
         else:
             pygame.mixer.music.set_volume(0.5)
 
+
     def playLevel(self,lvl=1):
         if not sound:
             return
@@ -104,10 +110,12 @@ class Avocado:
             pygame.mixer.music.load("""audio/level3.wav""")
         pygame.mixer.music.play()
 
+
     def fade(self):
         if not sound:
             return
         pygame.mixer.music.fadeout(3000)
+
 
     def loadClick(self):
         if not sound:
