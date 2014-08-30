@@ -5,18 +5,17 @@ from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, filename='img/AvoCado_0.png'):
+    def __init__(self, screen, color, size, filename='img/AvoCado_0.png'):
         print('New avocado is ' + ','.join(str(color)))
         self.screen = screen
         self.screen_width, self.screen_height = screen.get_size()
         self.x = random.randint(0, self.screen_width)
         self.y = 0  # change this to start somewhere above the screen
-        self.w = 100
-        self.y = 100
+        self.w , self.y = size
 
         self.i = pygame.image.load(filename).convert_alpha()
         operations.color_surface(self.i, color)
-        self.image = pygame.transform.scale(self.i, (30, 30))
+        self.image = pygame.transform.scale(self.i, (self.w, self.y))
         self.pycard = self.image.get_rect()
 
         self.init_pos()

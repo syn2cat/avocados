@@ -81,7 +81,8 @@ def main():
             avocados = []
             for i in range(0, level):
                 color = colors[random.randint(0,3)]
-                a = avocado.Avocado(screen, color)
+                avosize = (60,60)   # should we randomize this?
+                a = avocado.Avocado(screen, color, avosize)
                 avocados.append(a)
 
         for a in avocados:
