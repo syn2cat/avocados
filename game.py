@@ -12,7 +12,7 @@ from interface import hud
 
 def main():
     pygame.init()
-    pygame.display.set_caption('Avocados')
+    pygame.display.set_caption('Pin the Avocados!')
     clock = pygame.time.Clock()
 
     # Move this outside the main code?
@@ -34,19 +34,25 @@ def main():
     while running:
         time_passed = clock.tick(desired_fps)
         fps = clock.get_fps()
-
         screen.fill(bg)
 
         timeleft -= time_passed / 1000
-        timeleft = round(timeleft,2)
+        timeleft = round(timeleft, 2)
 
         if timeleft <= 0:
             screen.blit(game_over, (screen_width/3, screen_height/2))
+            displaytime = 'Timed out!'
+        else:
+            displaytime = timeleft
 
-        chud = my_hud.draw_hud(score, timeleft, round(fps,2))
+        # Redraw the HUD
+        chud = my_hud.draw_hud(score, displaytime, round(fps,2))
         screen.blit(chud, (10,10))
 
+        # Catch events
         for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                score += 100
             if event.type == pygame.QUIT:
                 running = False
 

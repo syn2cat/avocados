@@ -14,8 +14,10 @@ class Hud:
     def draw_hud(self, score, timeleft, fps):
         self.screen.fill(BLACK)
         self.screen.blit(self.draw_score(score), (0, 0))
-        self.screen.blit(self.draw_timeleft(timeleft), (100, 0))
-        self.screen.blit(self.draw_fps(fps), (650, 0))
+        self.screen.blit(self.draw_timeleft(timeleft), (self.screen_width / 2, 0))
+        thefps = self.draw_fps(fps)
+        fps_rect = thefps.get_rect()
+        self.screen.blit(thefps, (self.screen_width - fps_rect.w, 0))
         return self.screen
 
     def draw_score(self, score):
