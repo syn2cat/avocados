@@ -27,8 +27,6 @@ class TheGame:
         # fonts
         self.bigFont = pygame.font.Font(None, 90)
 
-        self.pinned = []
-
         try:
             pygame.mixer.init()
             pygame.mixer.music.set_volume(0.5)
@@ -59,17 +57,14 @@ class TheGame:
         pygame.mixer.music.play()
 
 
-    def fade(self, sound=True):
+    def fadeSound(self, sound=True):
         if not sound:
             return
         pygame.mixer.music.fadeout(3000)
 
-
-    def loadClick(self, sound=True):
-        if not sound:
-            return
-        self.click = pygame.mixer.Sound("audio/click.wav")
-        return self.click
+    def chooseRandomColor(self):
+        selected = random.randint(0, 3)
+        return self.colors[selected]
 
 
     def gameOver(self):
@@ -79,7 +74,7 @@ class TheGame:
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
         self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
         pygame.display.flip()
-        self.fade() # Fade the music
+        self.fadeSound()
         pygame.time.wait(3000)
         pygame.quit()
         sys.exit()
@@ -103,7 +98,8 @@ class TheGame:
         time = timeleft = 30
         level = 1
         levelChange = 0
-        avoClick = self.loadClick()
+        score = 0
+        targetScore = 400
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
@@ -134,7 +130,7 @@ class TheGame:
                 pauseFor = 35
                 timeleft = time
                 avocados = []
-                self.pinned = []
+                # self.pinned = []
                 print('DEBUG :: Level ' + str(level))
                 self.playLevel(level)
 
@@ -153,8 +149,9 @@ class TheGame:
             # Redraw the HUD
             the_hud.draw_hud(score, displaytime, round(fps, 2))
 
-            # Initialize a number of avocados, depending on the level
+            # If we're not currently in between levels…
             if levelChange == 0:
+                # Initialize a number of avocados, depending on the level
                 avocados_in_game = len(avocados)
                 avocadosWanted = level * multiplier
                 if avocados_in_game < avocadosWanted:
@@ -166,22 +163,23 @@ class TheGame:
 
                 # Remove avocados from the list if they no longer exist
                 # E.g. have been pinned or fallen down
-                self.pinned += [avo for avo in avocados if avo.has_been_pinned]
                 avocados[:] = [ x for x in avocados if x.exists() ]
                 for a in avocados:
                     a.setTargetColor(color)
-                    a.move()
-                    a.blitme()
-                for a in self.pinned:
+                    if not a.isPinned():
+                        a.move()
                     a.blitme()
 
             # Catch events
             for event in pygame.event.get():
                 # Collision detection
                 if event.type == MOUSEBUTTONDOWN:
-                    avoClick.play()
+                    mousepos = pygame.mouse.get_pos()
+                    # Throw a pin here
+                    # pin.throwAt(mousepos)
+                    # Yep, above here
                     for avo in avocados:
-                        hit = avo.isHit(pygame.mouse.get_pos())
+                        hit = avo.isHit(mousepos)
                         if hit:
                             score += 100
                             color = self.chooseRandomColor()
@@ -196,11 +194,6 @@ class TheGame:
                     sys.exit()
 
             pygame.display.flip()
-
-
-    def chooseRandomColor(self):
-        selected = random.randint(0, 3)
-        return self.colors[selected]
 
 
 if __name__ == '__main__':
