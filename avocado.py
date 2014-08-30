@@ -36,6 +36,7 @@ class Avocado:
         self.is_falling = True
         self.has_been_pinned = False
 
+
     def updateTargetColor(self, targetColor):
         self.target = targetColor
 

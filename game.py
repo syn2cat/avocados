@@ -43,7 +43,11 @@ class TheGame:
         #size = initialize_screen()
         size = (800, 600)
         bg = pygame.image.load("img/background.png")
-        desired_fps = 10
+        desired_fps = 15
+        multiplier = 6
+        score = 0
+        time = timeleft = 30
+        level = 1
         font = pygame.font.Font(None, 40)
 
         # I don't know, should we move this text out of the way?
@@ -60,20 +64,23 @@ class TheGame:
         color = self.chooseRandomColor()
         fullegast.setColor(color)
 
-        score = 0
-        time = timeleft = 15
-        level = 5
-
         avocados = []
         running = True
         while running:
 
             time_passed = clock.tick(desired_fps)
             fps = clock.get_fps()
+
             if type(bg) is tuple:
                 screen.fill(bg)
             else:
-                screen.blit(pygame.transform.scale(bg,(800,600)),(0,0))
+                screen.blit(pygame.transform.scale(bg, (800, 600)), (0, 0))
+
+            # Next level?
+            if score >= 500:
+                score = 0
+                level += 1
+                print('DEBUG :: Level ' + string(level))
 
             # Let's add the lawyer
             fullegast.blitme()
@@ -94,8 +101,9 @@ class TheGame:
 
             # Initialize a number of avocados, depending on the level
             avocados_in_game = len(avocados)
-            if avocados_in_game != level:
-                for i in range(avocados_in_game, level):
+            avocadosWanted = level * multiplier
+            if avocados_in_game < avocadosWanted:
+                for i in range(avocados_in_game, avocadosWanted):
                     avocolor = self.chooseRandomColor()
                     avosize = (50, 50)   # should we randomize this?
                     a = avocado.Avocado(screen, avocolor, avosize, color, noSound)
