@@ -52,7 +52,7 @@ class TheGame:
             pygame.mixer.music.load("""audio/level1.wav""")
         elif lvl == 2:
             pygame.mixer.music.load("""audio/level2.wav""")
-        elif lvl == 3:
+        elif lvl >= 3:
             pygame.mixer.music.load("""audio/level3.wav""")
         pygame.mixer.music.play()
 
@@ -119,6 +119,7 @@ class TheGame:
                 timeleft = time
                 avocados = []
                 print('DEBUG :: Level ' + str(level))
+                game.playLevel(level)
 
             # Let's add the lawyer
             fullegast.blitme()
