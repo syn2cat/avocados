@@ -17,6 +17,7 @@ class TheGame:
         """ foo """
         self.colors = [BLUE, GREEN, RED, YELLOW]
         pygame.init()
+        self.pinned = []
         try:
             pygame.mixer.init()
             pygame.mixer.music.set_volume(0.5)
@@ -75,6 +76,8 @@ class TheGame:
         pygame.display.flip()
         pygame.time.wait(3000)
 
+    def keepPinned(self, avocado):
+        self.pinned.append(avocado)
 
     def main(self):
         clock = pygame.time.Clock()
@@ -126,6 +129,7 @@ class TheGame:
                 levelChange = 35
                 timeleft = time
                 avocados = []
+                self.pinned = []
                 print('DEBUG :: Level ' + str(level))
                 game.playLevel(level)
 
@@ -164,11 +168,15 @@ class TheGame:
 
                 # Remove avocados from the list if they no longer exist
                 # E.g. have been pinned or fallen down
+                self.pinned += [avo for avo in avocados if avo.has_been_pinned]
                 avocados[:] = [ x for x in avocados if x.exists() ]
                 for a in avocados:
                     a.setTargetColor(color)
                     a.move()
                     a.blitme()
+                for a in self.pinned:
+                    a.blitme()
+
 
             # Catch events
             for event in pygame.event.get():

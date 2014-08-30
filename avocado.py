@@ -74,14 +74,15 @@ class Avocado:
 
 
     def move(self):
-        if self.rect.right > self.screen_width or self.rect.left < 0:
-            self.vx = -self.vy
+        if not self.has_been_pinned:
+            if self.rect.right > self.screen_width or self.rect.left < 0:
+                self.vx = -self.vy
 
-        if self.hasLanded():
-            self.destroy()
+            if self.hasLanded():
+                self.destroy()
 
-        self.rect.x += self.vx
-        self.rect.y += self.vy
+            self.rect.x += self.vx
+            self.rect.y += self.vy
         return True
 
 
