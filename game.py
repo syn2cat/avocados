@@ -24,6 +24,8 @@ class TheGame:
         self.WIDTH = int(displayInfo.current_w / self.resize)
         self.HEIGHT = int(displayInfo.current_h / self.resize)
 
+        self.WIDTH, self.HEIGHT = 800, 600
+
         # initialize the game canvas
         self.size = (self.WIDTH, self.HEIGHT)
         self.screen = pygame.display.set_mode(self.size)
