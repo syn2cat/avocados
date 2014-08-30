@@ -95,7 +95,6 @@ class TheGame:
 
         # I don't know, should we move this text out of the way?
         game_over = font.render('GAME OVER', 0, RED)
-
         gameOverImage = pygame.image.load("img/gameOver.png")
 
         # initialize the game canvas
@@ -176,7 +175,6 @@ class TheGame:
                     a.blitme()
                 for a in self.pinned:
                     a.blitme()
-
 
             # Catch events
             for event in pygame.event.get():
