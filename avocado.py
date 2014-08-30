@@ -15,6 +15,7 @@ class Avocado:
             self.has_been_pinned = False
             return None
 
+        print('New avocado is ' + ','.join(str(color)))
         self.screen = screen
         self.color = color
         self.select = select
@@ -81,7 +82,15 @@ class Avocado:
     def hasLanded(self):
         if self.rect.bottom > self.screen_height or self.rect.top < 0:
             self.is_falling = False
+            print('platch')
             return True
+
+
+    def mute(self,mute=False):
+        if mute:
+            pygame.mixer.music.set_volume(0.0)
+        else:
+            pygame.mixer.music.set_volume(0.5)
 
 
     def destroy(self):

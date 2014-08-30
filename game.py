@@ -10,6 +10,7 @@ from pygame.locals import *
 from support.colors import *
 from interface import hud
 
+
 def initialize_screen():
     displayInfo = pygame.display.Info()
     zoom = 1.3
@@ -21,6 +22,8 @@ def initialize_screen():
 
 def main():
     pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.set_volume(0.5)
     pygame.display.set_caption('Pin Avo, the Cado!')
     clock = pygame.time.Clock()
 
