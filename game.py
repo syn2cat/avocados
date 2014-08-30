@@ -202,6 +202,7 @@ class TheGame:
                 # Had enough of this?
                 if event.type == pygame.QUIT:
                     running = False
+                    game.gameOver()
                     pygame.quit()
                     sys.exit()
 

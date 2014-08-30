@@ -18,5 +18,4 @@ class Crystal:
     def setColor(self, color):
         """ Announces the color to pin by drawing a rectangle
         and filling it with a color """
-        pygame.draw.ellipse(self.screen, (color), (self.imageCenterX-158,self.imageCenterY-5,277,217), 0)
-        print("Drawing {} ellipse".format(color))
+        pygame.draw.ellipse(self.screen, (color), (self.imageCenterX,self.imageCenterY,150,117), 0)
