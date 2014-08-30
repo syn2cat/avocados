@@ -30,7 +30,7 @@ def main():
     # initialize_screen() won't work for dualscreen
     #size = initialize_screen()
     size = (800, 600)
-    bg = BLACK
+    bg = pygame.image.load("img/background.png")
     desired_fps = 10
     font = pygame.font.Font(None, 40)
 
@@ -60,7 +60,11 @@ def main():
     while running:
         time_passed = clock.tick(desired_fps)
         fps = clock.get_fps()
-        screen.fill(bg)
+        if type(bg) is tuple:
+            screen.fill(bg)
+        else:
+            screen.blit(pygame.transform.scale(bg,(800,600)),(0,0))
+
 
         # Let's add the lawyer and have him announce a color
         fullegast.setColor(color)
