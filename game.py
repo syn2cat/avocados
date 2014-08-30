@@ -76,12 +76,12 @@ def main():
         if len(avocados) != level:
             avocados = []
             for i in range(0, level):
-                a = avocado.Avocado(size)
+                a = avocado.Avocado(screen)
                 avocados.append(a)
 
         for a in avocados:
             if not a.move():
-                a.reset()
+                a.init_pos()
             screen.blit(a.image, a.pycard)
 
         # Catch events
