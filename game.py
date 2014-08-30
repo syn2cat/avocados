@@ -27,6 +27,7 @@ class TheGame:
 
         pygame.display.set_caption('Pin Avo, the Cado!')
 
+
     def initialize_screen(self):
         displayInfo = pygame.display.Info()
         zoom = 1.3
@@ -68,19 +69,9 @@ class TheGame:
         self.click = pygame.mixer.Sound("audio/click.wav")
         return self.click
 
+
     def main(self):
-        pygame.init()
-        try:
-            pygame.mixer.init()
-            pygame.mixer.music.set_volume(0.5)
-            noSound = False
-        except:
-            print("DEBUG :: Y U NO sound? :(")
-            noSound = True
-
-        pygame.display.set_caption('Pin Avo, the Cado!')
         clock = pygame.time.Clock()
-
         size = (800, 600)
         bg = pygame.image.load("img/background.png")
         desired_fps = 15
@@ -91,6 +82,7 @@ class TheGame:
         levelChange = 0
         reachScore = 200
         font = pygame.font.Font(None, 60)
+        avoClick = game.loadClick()
 
         # I don't know, should we move this text out of the way?
         game_over = font.render('GAME OVER', 0, RED)
@@ -172,6 +164,7 @@ class TheGame:
             for event in pygame.event.get():
                 # Collision detection
                 if event.type == MOUSEBUTTONDOWN:
+                    avoClick.play()
                     for avo in avocados:
                         hit = avo.isHit(pygame.mouse.get_pos())
                         if hit:
