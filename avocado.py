@@ -16,10 +16,14 @@ class Avocado:
         self.pycard = self.image.get_rect()
 
         self.pycard.x = random.randint(0, self.screen_width)
-        self.pycard.y = random.randint(0, 50)
+        self.pycard.y = random.randint(20, 70)
         self.step_x = 10
         self.step_y = 10
         self.is_falling = True
+
+    def reset(self):
+        self.pycard.x = random.randint(0, self.screen_width)
+        self.pycard.y = random.randint(0, 50)
 
     def collides(self, click):
         """

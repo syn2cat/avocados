@@ -10,6 +10,7 @@ from pygame.locals import *
 from support.colors import *
 from interface import hud
 
+
 def main():
     pygame.init()
     pygame.display.set_caption('Pin the Avocados!')
@@ -18,7 +19,7 @@ def main():
     # Move this outside the main code?
     screen_width = 800
     screen_height = 600
-    screen = pygame.display.set_mode((screen_width,screen_height))
+    screen = pygame.display.set_mode((screen_width, screen_height))
     bg = BLACK
     desired_fps = 5
 
@@ -28,10 +29,11 @@ def main():
 
     score = 0
     time = 15
-    level = 1
+    level = 5
 
     running = True
     timeleft = time
+    avocados = []
     while running:
         time_passed = clock.tick(desired_fps)
         fps = clock.get_fps()
@@ -47,19 +49,19 @@ def main():
             displaytime = timeleft
 
         # Redraw the HUD
-        chud = my_hud.draw_hud(score, displaytime, round(fps,2))
-        screen.blit(chud, (10,10))
+        chud = my_hud.draw_hud(score, displaytime, round(fps, 2))
+        screen.blit(chud, (10, 10))
 
         # Initialize a number of avocados, depending on the level
-        avocados = []
-        for i in range(0, level):
-            a = avocado.Avocado((screen_width, screen_height))
-            avocados.append(a)
+        if len(avocados) != level:
+            avocados = []
+            for i in range(0, level):
+                a = avocado.Avocado((screen_width, screen_height))
+                avocados.append(a)
 
-        has_moved = False
         for a in avocados:
-            if a.move():
-                has_moved = True
+            if not a.move():
+                a.reset()
             screen.blit(a.image, a.pycard)
 
         # Catch events
