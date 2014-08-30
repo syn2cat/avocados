@@ -40,6 +40,7 @@ def main():
     # initialize the HUD class and the lawyer
     the_hud = hud.Hud(screen)
     fullegast = lawyer.Lawyer(screen)
+
     # Well, we want this to select between several colors, so we need a list
     # of colors, right?
     colors = [BLUE, GREEN, RED, YELLOW]
@@ -85,7 +86,7 @@ def main():
 
         for a in avocados:
             if not a.move():
-                a.reset()
+                a.init_pos()
             screen.blit(a.image, a.pycard)
 
         # Catch events

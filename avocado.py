@@ -7,6 +7,7 @@ class Avocado:
 
     def __init__(self, screen, color, filename='img/AvoCado_0.png'):
         print('New avocado is ' + ','.join(str(color)))
+		self.screen = screen
         self.screen_width, self.screen_height = screen.get_size()
         self.x = random.randint(0, self.screen_width)
         self.y = 0  # change this to start somewhere above the screen
@@ -16,15 +17,14 @@ class Avocado:
         self.image = pygame.transform.scale(self.i, (30, 30))
         self.pycard = self.image.get_rect()
 
-        self.pycard.x = random.randint(0, self.screen_width)
-        self.pycard.y = random.randint(20, 70)
+        self.init_pos()
         self.step_x = 10
         self.step_y = 10
         self.is_falling = True
 
-    def reset(self):
+    def init_pos(self):
         self.pycard.x = random.randint(0, self.screen_width)
-        self.pycard.y = random.randint(0, 50)
+        self.pycard.y = random.randint(20, 70)
 
     def collides(self, click):
         """
