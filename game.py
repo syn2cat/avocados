@@ -8,7 +8,7 @@ import pygame
 from pygame.locals import *
 
 from support import colors
-import hud
+from interface import hud
 
 # Move this outside
 screen_width = 800
@@ -26,6 +26,8 @@ def main():
     while running:
         # Limit to 50 fps
         time_passed = clock.tick(30)
+        my_hud = hud.draw_hud(10)
+        screen.blit(my_hud, (0,0))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
