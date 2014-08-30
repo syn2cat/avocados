@@ -19,31 +19,32 @@ def main():
     screen_width = 800
     screen_height = 600
     screen = pygame.display.set_mode((screen_width,screen_height))
-    bg = (0,0,0)
-    screen.fill(bg)
+    bg = BLACK
     desired_fps = 60
 
     font = pygame.font.Font(None, 40)
     game_over = font.render('GAME OVER', 0, RED)
+    my_hud = hud.Hud((screen_width, screen_height))
 
     score = 0
-    time = 10
+    time = 15
 
     running = True
     timeleft = time
     while running:
-        # Limit to XY fps
         time_passed = clock.tick(desired_fps)
-        #time_since = clock.get_time()  #Same as above
         fps = clock.get_fps()
+
+        screen.fill(bg)
 
         timeleft -= time_passed / 1000
         timeleft = round(timeleft,2)
+
         if timeleft <= 0:
             screen.blit(game_over, (screen_width/3, screen_height/2))
 
-        my_hud = hud.draw_hud(score, timeleft, fps)
-        screen.blit(my_hud, (10,10))
+        chud = my_hud.draw_hud(score, timeleft, round(fps,2))
+        screen.blit(chud, (10,10))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
