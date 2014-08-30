@@ -47,11 +47,12 @@ class Avocado:
         Checks whether this object collides with the given position
         in click
         """
-        #if collision and …
-        if self.color == self.select:
+        mousex, mousey = click
+        if self.pycard.left < mousex and self.pycard.right > mousex and \
+                self.pycard.top < mousey and self.pycard.bottom > mousey and \
+				self.color == self.select:
             self.destroy()
             return True
-
 
     def destroy(self):
         """destroys this object"""
