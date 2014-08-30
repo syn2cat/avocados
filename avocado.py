@@ -21,31 +21,38 @@ class Avocado:
         self.init_pos()
         self.step_x = 10
         self.step_y = 10
-        self.is_falling = True
+        self.is_destroyed = False
 
     def init_pos(self):
         self.pycard.x = random.randint(0, self.screen_width)
         self.pycard.y = random.randint(20, 70)
+        self.is_destroyed = False
 
     def collides(self, click):
         """
         Checks whether this object collides with the given position
         in click
         """
-        return True
+        mousex, mousey = click
+        if self.pycard.left < mousex and self.pycard.right > mousex and \
+                self.pycard.top < mousey and self.pycard.bottom > mousey:
+            self.destroy()
+            return True
+        return False
         #if collision then self.destroy()
 
     def destroy(self):
         """destroys this object"""
+        self.is_destroyed = True
 
     def move(self):
         if self.pycard.right > self.screen_width or self.pycard.left < 0:
             self.step_x = -self.step_x
-        if self.pycard.bottom > self.screen_height or self.pycard.top < 0:
+        if self.is_destroyed or self.pycard.bottom > self.screen_height \
+                or self.pycard.top < 0:
             print('platch')
             return False
-            self.is_falling = False
+        print(self.pycard.x, self.pycard.y)
         self.pycard.x += self.step_x
         self.pycard.y += self.step_y
         return True
-

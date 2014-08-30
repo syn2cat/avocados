@@ -28,7 +28,7 @@ def main():
     #size = initialize_screen()
     size = (800, 600)
     bg = BLACK
-    desired_fps = 60
+    desired_fps = 10
     font = pygame.font.Font(None, 40)
 
     # I don't know, should we move this text out of the way?
@@ -66,10 +66,13 @@ def main():
         timeleft -= time_passed / 1000
         timeleft = round(timeleft, 2)
 
+
         if timeleft <= 0:
             screen_width, screen_height = size
             screen.blit(game_over, (screen_width/3, screen_height/2))
             displaytime = 'Timed out!'
+            pygame.display.flip()
+            continue
         else:
             displaytime = timeleft
 
@@ -97,7 +100,7 @@ def main():
                 for avo in avocados:
                     if avo.collides(pygame.mouse.get_pos()):
                         score += 100
-
+                        avo.init_pos()
             # Had enough of this?
             if event.type == pygame.QUIT:
                 running = False
