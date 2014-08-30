@@ -11,7 +11,7 @@ def draw_hud(score, timeleft, fps):
     # Adding items to the hud
     hud.blit(draw_score(font, score), (0, 0))
     hud.blit(draw_timeleft(font, timeleft), (100, 0))
-    hud.blit(draw_fps(font, fps), (150, 0))
+    hud.blit(draw_fps(font, fps), (200, 0))
     return hud
 
 def draw_score(font, score):
