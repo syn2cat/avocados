@@ -80,4 +80,24 @@ class Avocado:
             print('platch')
             return True
 
+    def mute(self,mute=False):
+        if mute:
+            pygame.mixer.music.set_volume(0.0)
+        else:
+            pygame.mixer.music.set_volume(0.5)
 
+    def playLevel(self,lvl=1):
+        if lvl == 1:
+            pygame.mixer.music.load("""audio/level1.wav""")
+        elif lvl == 2:
+            pygame.mixer.music.load("""audio/level2.wav""")
+        elif lvl == 3:
+            pygame.mixer.music.load("""audio/level3.wav""")
+        pygame.mixer.music.play()
+
+    def fade(self):
+        pygame.mixer.music.fadeout(3000)
+
+    def loadClick(self):
+        self.click = pygame.mixer.Sound("audio/click.wav")
+        return self.click

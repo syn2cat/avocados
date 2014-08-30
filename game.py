@@ -21,6 +21,8 @@ def initialize_screen():
 
 def main():
     pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.set_volume(0.5)
     pygame.display.set_caption('Pin Avo, the Cado!')
     clock = pygame.time.Clock()
 
