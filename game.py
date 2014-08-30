@@ -21,13 +21,17 @@ def main():
     pygame.init()
     pygame.display.set_caption('Avocados')
     clock = pygame.time.Clock()
+    score = 0
+    time = 33
 
     running = True
     while running:
         # Limit to 50 fps
         time_passed = clock.tick(30)
-        my_hud = hud.draw_hud(10)
-        screen.blit(my_hud, (0,0))
+        fps = clock.get_fps()
+
+        my_hud = hud.draw_hud(score, time, fps)
+        screen.blit(my_hud, (10,10))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
