@@ -21,8 +21,14 @@ def initialize_screen():
 
 def main():
     pygame.init()
-    pygame.mixer.init()
-    pygame.mixer.music.set_volume(0.5)
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(0.5)
+        noSound = False
+    except:
+        print("Setting no sound :(")
+        noSound = True
+
     pygame.display.set_caption('Pin Avo, the Cado!')
     clock = pygame.time.Clock()
 
@@ -92,7 +98,7 @@ def main():
             for i in range(avocados_in_game, level):
                 avocolor = colors[random.randint(0, 3)]
                 avosize = (50, 50)   # should we randomize this?
-                a = avocado.Avocado(screen, avocolor, avosize, color)
+                a = avocado.Avocado(screen, avocolor, avosize, color, noSound)
                 avocados.append(a)
 
         avocados[:] = [ x for x in avocados if x.exists() ]

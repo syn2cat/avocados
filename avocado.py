@@ -5,7 +5,7 @@ from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, size, select, filename='img/AvoCado_0.png'):
+    def __init__(self, screen, color, size, select, sound=True, filename='img/AvoCado_0.png'):
         # We randomly decide whether we should instanciate or not
         if random.randint(0,1) == 0:
             self.is_falling = False
@@ -81,12 +81,16 @@ class Avocado:
             return True
 
     def mute(self,mute=False):
+        if not sound:
+            return
         if mute:
             pygame.mixer.music.set_volume(0.0)
         else:
             pygame.mixer.music.set_volume(0.5)
 
     def playLevel(self,lvl=1):
+        if not sound:
+            return
         if lvl == 1:
             pygame.mixer.music.load("""audio/level1.wav""")
         elif lvl == 2:
@@ -96,8 +100,12 @@ class Avocado:
         pygame.mixer.music.play()
 
     def fade(self):
+        if not sound:
+            return
         pygame.mixer.music.fadeout(3000)
 
     def loadClick(self):
+        if not sound:
+            return
         self.click = pygame.mixer.Sound("audio/click.wav")
         return self.click
