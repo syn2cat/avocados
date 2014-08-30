@@ -159,6 +159,7 @@ class TheGame:
 
             # Redraw the HUD
             the_hud.draw_hud(score, displaytime, round(fps, 2))
+            crystalBall.setColor(color)
 
             # If we're not currently in between levels…
             if levelChange == 0:
