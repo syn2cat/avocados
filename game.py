@@ -16,6 +16,16 @@ class TheGame:
     def __init__(self):
         """ foo """
         self.colors = [BLUE, GREEN, RED, YELLOW]
+        pygame.init()
+        try:
+            pygame.mixer.init()
+            pygame.mixer.music.set_volume(0.5)
+            noSound = False
+        except:
+            print("Y U NO sound? :(")
+            noSound = True
+
+        pygame.display.set_caption('Pin Avo, the Cado!')
 
 
     def initialize_screen(self):
@@ -61,18 +71,7 @@ class TheGame:
 
 
     def main(self):
-        pygame.init()
-        try:
-            pygame.mixer.init()
-            pygame.mixer.music.set_volume(0.5)
-            noSound = False
-        except:
-            print("Y U NO sound? :(")
-            noSound = True
-
-        pygame.display.set_caption('Pin Avo, the Cado!')
         clock = pygame.time.Clock()
-
         # initialize_screen() won't work for dualscreen
         #size = initialize_screen()
         size = (800, 600)
@@ -180,4 +179,5 @@ class TheGame:
 
 if __name__ == '__main__':
     game = TheGame()
+    game.playLevel()
     game.main()
