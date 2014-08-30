@@ -11,7 +11,7 @@ class Hud:
         self.screen = screen
         self.screen_width, self.screen_height = screen.get_size()
         self.font = pygame.font.Font(None, 30)
-        self.hud = pygame.Surface((self.screen_width, 30))
+        self.hud = pygame.Surface((self.screen_width, 25))
 
     def draw_hud(self, score, timeleft, fps):
         self.hud.fill(BLACK)

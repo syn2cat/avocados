@@ -136,12 +136,12 @@ class TheGame:
             self.drawBackground()
 
             # Next level?
-            if score >= targetScore:
-                self.score = 0
+            if (score * level) >= (targetScore * level):
                 level += 1
                 levelChange = 35
                 timeleft = time
                 avocados = []
+                print('DEBUG :: Score: ' + str(score))
                 print('DEBUG :: Level ' + str(level))
                 self.playLevel(level)
 
