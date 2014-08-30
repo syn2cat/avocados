@@ -5,14 +5,14 @@ import random
 
 class Avocado:
 
-    def __init__(self, screensize, filename='avocado-01.jpg'):
+    def __init__(self, screensize, filename='img/AvoCado_0.png'):
         self.screen_width, self.screen_height = screensize
         self.x = random.randint(0, self.screen_width)
         self.y = 0  # change this to start somewhere above the screen
         self.w = 100
         self.y = 100
         self.i = pygame.image.load(filename).convert_alpha()
-        self.image = pygame.transform.scale(self.i, (20, 20))
+        self.image = pygame.transform.scale(self.i, (30, 30))
         self.pycard = self.image.get_rect()
 
         self.pycard.x = random.randint(0, self.screen_width)
