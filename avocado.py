@@ -48,8 +48,8 @@ class Avocado:
         in click
         """
         mousex, mousey = click
-        if self.pycard.left < mousex and self.pycard.right > mousex and \
-                self.pycard.top < mousey and self.pycard.bottom > mousey and \
+        if self.rect.left < mousex and self.rect.right > mousex and \
+                self.rect.top < mousey and self.rect.bottom > mousey and \
 				self.color == self.select:
             self.destroy()
             return True
