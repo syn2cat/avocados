@@ -3,27 +3,28 @@
 import pygame
 import random
 
+
 class Avocado:
 
-    def __init__(self, screensize, filename='avocado-01.jpg'):
-        self.screen_width, self.screen_height = screensize
+    def __init__(self, screen, filename='img/AvoCado_0.png'):
+        self.screen = screen
+        self.screen_width, self.screen_height = screen.get_size()
         self.x = random.randint(0, self.screen_width)
         self.y = 0  # change this to start somewhere above the screen
         self.w = 100
         self.y = 100
         self.i = pygame.image.load(filename).convert_alpha()
-        self.image = pygame.transform.scale(self.i, (20, 20))
+        self.image = pygame.transform.scale(self.i, (30, 30))
         self.pycard = self.image.get_rect()
 
-        self.pycard.x = random.randint(0, self.screen_width)
-        self.pycard.y = random.randint(20, 70)
+        self.init_pos()
         self.step_x = 10
         self.step_y = 10
         self.is_falling = True
 
-    def reset(self):
+    def init_pos(self):
         self.pycard.x = random.randint(0, self.screen_width)
-        self.pycard.y = random.randint(0, 50)
+        self.pycard.y = random.randint(20, 70)
 
     def collides(self, click):
         """

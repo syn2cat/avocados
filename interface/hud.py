@@ -10,7 +10,7 @@ class Hud:
     def __init__(self, screensize):
         self.screen_width, self.screen_height = screensize
         self.font = pygame.font.Font(None, 30)
-        self.screen = pygame.Surface((self.screen_width, self.screen_height / 6))
+        self.screen = pygame.Surface((self.screen_width, self.screen_height / 8))
 
     def draw_hud(self, score, timeleft, fps):
         self.screen.fill(BLACK)
