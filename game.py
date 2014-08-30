@@ -70,6 +70,7 @@ class TheGame:
         self.click = pygame.mixer.Sound("audio/click.wav")
         return self.click
 
+
     def gameOver(self,screen,gameOverImage):
         screen.blit(pygame.transform.scale(gameOverImage, (800, 600)), (0, 0))
         pygame.display.flip()
@@ -83,7 +84,7 @@ class TheGame:
         clock = pygame.time.Clock()
         size = (800, 600)
         bg = pygame.image.load("img/background.png")
-        desired_fps = 15
+        desired_fps = 60
         multiplier = 3
         score = 0
         time = timeleft = 30
@@ -95,7 +96,6 @@ class TheGame:
 
         # I don't know, should we move this text out of the way?
         game_over = font.render('GAME OVER', 0, RED)
-
         gameOverImage = pygame.image.load("img/gameOver.png")
 
         # initialize the game canvas
@@ -176,7 +176,6 @@ class TheGame:
                     a.blitme()
                 for a in self.pinned:
                     a.blitme()
-
 
             # Catch events
             for event in pygame.event.get():

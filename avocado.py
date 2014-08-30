@@ -11,7 +11,7 @@ class Avocado:
         # We randomly decide whether we should instanciate or not
         # I'd rather just not return an instance,
         # but I don't know how to do that :(
-        if random.randint(0,1) == 0:
+        if random.randint(0,40) != 1:
             self.is_falling = False
             self.has_been_pinned = False
             return None
@@ -31,8 +31,9 @@ class Avocado:
 
         # Set the avocado's initial position and velocity
         self.init_pos()
-        self.vx = 10
-        self.vy = 10
+        self.vx = 2
+        self.vy = 4
+
         self.is_falling = True
         self.has_been_pinned = False
 
