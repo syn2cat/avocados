@@ -45,10 +45,11 @@ def main():
 
     score = 0
     time = 15
-    level = 1
+    level = 5
 
     running = True
     timeleft = time
+    avocados = []
     while running:
         time_passed = clock.tick(desired_fps)
         fps = clock.get_fps()
@@ -68,14 +69,20 @@ def main():
             displaytime = timeleft
 
         # Redraw the HUD
-        chud = my_hud.draw_hud(score, displaytime, round(fps,2))
-        screen.blit(chud, (10,10))
+        chud = my_hud.draw_hud(score, displaytime, round(fps, 2))
+        screen.blit(chud, (10, 10))
 
         # Initialize a number of avocados, depending on the level
-        avocados = []
-        for i in range(0, level):
-            a = avocado.Avocado(size)
-            avocados.append(a)
+        if len(avocados) != level:
+            avocados = []
+            for i in range(0, level):
+                a = avocado.Avocado(size)
+                avocados.append(a)
+
+        for a in avocados:
+            if not a.move():
+                a.reset()
+            screen.blit(a.image, a.pycard)
 
         # Catch events
         for event in pygame.event.get():
