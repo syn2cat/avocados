@@ -10,6 +10,7 @@ from pygame.locals import *
 from support.colors import *
 from interface import hud
 
+
 def initialize_screen():
     displayInfo = pygame.display.Info()
     zoom = 1.3
@@ -21,15 +22,21 @@ def initialize_screen():
 
 def main():
     pygame.init()
-    pygame.mixer.init()
-    pygame.mixer.music.set_volume(0.5)
+    try:
+        pygame.mixer.init()
+        pygame.mixer.music.set_volume(0.5)
+        noSound = False
+    except:
+        print("Setting no sound :(")
+        noSound = True
+
     pygame.display.set_caption('Pin Avo, the Cado!')
     clock = pygame.time.Clock()
 
     # initialize_screen() won't work for dualscreen
     #size = initialize_screen()
     size = (800, 600)
-    bg = BLACK
+    bg = pygame.image.load("img/background.png")
     desired_fps = 10
     font = pygame.font.Font(None, 40)
 
@@ -59,7 +66,11 @@ def main():
     while running:
         time_passed = clock.tick(desired_fps)
         fps = clock.get_fps()
-        screen.fill(bg)
+        if type(bg) is tuple:
+            screen.fill(bg)
+        else:
+            screen.blit(pygame.transform.scale(bg,(800,600)),(0,0))
+
 
         # Let's add the lawyer and have him announce a color
         fullegast.setColor(color)
@@ -92,9 +103,11 @@ def main():
             for i in range(avocados_in_game, level):
                 avocolor = colors[random.randint(0, 3)]
                 avosize = (50, 50)   # should we randomize this?
-                a = avocado.Avocado(screen, avocolor, avosize, color)
+                a = avocado.Avocado(screen, avocolor, avosize, color, noSound)
                 avocados.append(a)
 
+        # Remove avocados from the list if they no longer exist
+        # E.g. have been pinned or fallen down
         avocados[:] = [ x for x in avocados if x.exists() ]
         for a in avocados:
             a.move()
@@ -105,9 +118,12 @@ def main():
             # Collision detection
             if event.type == MOUSEBUTTONDOWN:
                 for avo in avocados:
-                    if avo.collides(pygame.mouse.get_pos()):
+                    hit = avo.isHit(pygame.mouse.get_pos())
+                    if hit:
                         score += 100
-                        avo.init_pos()
+                    elif hit == False:
+                        score -= 50
+
             # Had enough of this?
             if event.type == pygame.QUIT:
                 running = False
