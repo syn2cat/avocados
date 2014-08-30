@@ -7,37 +7,57 @@ import os, random
 import pygame
 from pygame.locals import *
 
-from support import colors
+from support.colors import *
 from interface import hud
-
-# Move this outside
-screen_width = 800
-screen_height = 600
-screen = pygame.display.set_mode((screen_width,screen_height))
-bg = (0,0,0)
-screen.fill(bg)
 
 def main():
     pygame.init()
-    pygame.display.set_caption('Avocados')
+    pygame.display.set_caption('Pin the Avocados!')
     clock = pygame.time.Clock()
+
+    # Move this outside the main code?
+    screen_width = 800
+    screen_height = 600
+    screen = pygame.display.set_mode((screen_width,screen_height))
+    bg = BLACK
+    desired_fps = 60
+
+    font = pygame.font.Font(None, 40)
+    game_over = font.render('GAME OVER', 0, RED)
+    my_hud = hud.Hud((screen_width, screen_height))
+
     score = 0
-    time = 33
+    time = 15
 
     running = True
+    timeleft = time
     while running:
-        # Limit to 50 fps
-        time_passed = clock.tick(30)
+        time_passed = clock.tick(desired_fps)
         fps = clock.get_fps()
+        screen.fill(bg)
 
-        my_hud = hud.draw_hud(score, time, fps)
-        screen.blit(my_hud, (10,10))
+        timeleft -= time_passed / 1000
+        timeleft = round(timeleft, 2)
 
+        if timeleft <= 0:
+            screen.blit(game_over, (screen_width/3, screen_height/2))
+            displaytime = 'Timed out!'
+        else:
+            displaytime = timeleft
+
+        # Redraw the HUD
+        chud = my_hud.draw_hud(score, displaytime, round(fps,2))
+        screen.blit(chud, (10,10))
+
+        # Catch events
         for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                score += 100
             if event.type == pygame.QUIT:
                 running = False
 
         pygame.display.flip()
+
 
 if __name__ == '__main__':
     main()

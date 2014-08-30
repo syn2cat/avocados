@@ -4,24 +4,30 @@ import pygame
 from pygame.locals import *
 from support.colors import *
 
-def draw_hud(score, timeleft, fps):
-    hud = pygame.Surface((800, 100))
-    font = pygame.font.Font(None, 30)
+class Hud:
 
-    # Adding items to the hud
-    hud.blit(draw_score(font, score), (0, 0))
-    hud.blit(draw_timeleft(font, timeleft), (100, 0))
-    hud.blit(draw_fps(font, fps), (150, 0))
-    return hud
+    def __init__(self, screensize):
+        self.screen_width, self.screen_height = screensize
+        self.font = pygame.font.Font(None, 30)
+        self.screen = pygame.Surface((self.screen_width, self.screen_height / 6))
 
-def draw_score(font, score):
-    score = font.render('Score: ' + str(score), 0, WHITE)
-    return score
+    def draw_hud(self, score, timeleft, fps):
+        self.screen.fill(BLACK)
+        self.screen.blit(self.draw_score(score), (0, 0))
+        self.screen.blit(self.draw_timeleft(timeleft), (self.screen_width / 2, 0))
+        thefps = self.draw_fps(fps)
+        fps_rect = thefps.get_rect()
+        self.screen.blit(thefps, (self.screen_width - fps_rect.w, 0))
+        return self.screen
 
-def draw_timeleft(font, time):
-    # Add a clock icon here (maybe egg-clock)
-    time = font.render(str(time), 1, WHITE)
-    return time
+    def draw_score(self, score):
+        score = self.font.render('Score: ' + str(score), 0, WHITE)
+        return score
 
-def draw_fps(font, fps):
-    return font.render('fps: ' + str(fps), 10, RED)
+    def draw_timeleft(self, time):
+        # Add a clock icon here (maybe egg-clock)
+        time = self.font.render(str(time), 1, WHITE)
+        return time
+
+    def draw_fps(self, fps):
+        return self.font.render('fps: ' + str(fps), 10, RED)
