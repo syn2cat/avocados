@@ -5,7 +5,7 @@ Avocados and stuff
 
 import os, random, sys
 import pygame
-import avocado, lawyer
+import avocado, crystal
 from pygame.locals import *
 from support.colors import *
 from interface import hud
@@ -26,6 +26,12 @@ class TheGame:
 
         # fonts
         self.bigFont = pygame.font.Font(None, 90)
+
+		# Set splashscreen
+        splashScreen = pygame.image.load("img/splashScreen.png")
+        self.screen.blit(pygame.transform.scale(splashScreen, self.size), (0, 0))
+        pygame.display.flip()
+        pygame.time.wait(3000)
 
         try:
             pygame.mixer.init()
@@ -103,11 +109,10 @@ class TheGame:
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
-        fullegast = lawyer.Lawyer(self.screen)
+        crystalBall = crystal.Crystal(self.screen)
 
         # Initial color indication
         color = self.chooseRandomColor()
-        fullegast.setColor(color)
 
         # We could use this list for redrawing only this part
         # of the screen install of all of it
@@ -121,16 +126,14 @@ class TheGame:
 
             # Redraw the background and put our lawyer back on top
             self.drawBackground()
-            fullegast.blitme()
 
             # Next level?
             if score >= targetScore:
                 self.score = 0
                 level += 1
-                pauseFor = 35
+                levelChange = 35
                 timeleft = time
                 avocados = []
-                # self.pinned = []
                 print('DEBUG :: Level ' + str(level))
                 self.playLevel(level)
 
@@ -183,7 +186,7 @@ class TheGame:
                         if hit:
                             score += 100
                             color = self.chooseRandomColor()
-                            fullegast.setColor(color)
+                            crystalBall.setColor(color)
                         elif hit == False:
                             score -= 50
 
