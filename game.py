@@ -73,6 +73,7 @@ class TheGame:
     def gameOver(self,screen,gameOverImage):
         screen.blit(pygame.transform.scale(gameOverImage, (800, 600)), (0, 0))
         pygame.display.flip()
+        self.fade()
         pygame.time.wait(3000)
 
     def keepPinned(self, avocado):
