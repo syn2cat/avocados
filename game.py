@@ -83,7 +83,7 @@ class TheGame:
     def main(self):
         clock = pygame.time.Clock()
         size = (800, 600)
-        bg = pygame.image.load("img/background.png")
+        bg = pygame.image.load("img/lawyerCrystalBall.png")
         desired_fps = 60
         multiplier = 3
         score = 0
