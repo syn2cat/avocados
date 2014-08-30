@@ -74,6 +74,7 @@ class TheGame:
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/6))
         self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
         pygame.display.flip()
+        self.fade()
         pygame.time.wait(3000)
         pygame.quit()
 
@@ -84,7 +85,7 @@ class TheGame:
 
     def main(self):
         clock = pygame.time.Clock()
-        bg = pygame.image.load("img/background.png")
+        bg = pygame.image.load("img/lawyerCrystalBall.png")
         desired_fps = 60
         multiplier = 3
         score = 0
@@ -113,7 +114,7 @@ class TheGame:
             if type(bg) is tuple:
                 self.screen.fill(bg)
             else:
-                self.screen.blit(pygame.transform.scale(bg, (800, 600)), (0, 0))
+                self.screen.blit(pygame.transform.scale(bg, self.size), (0, 0))
 
             # Next level?
             if score >= reachScore:
