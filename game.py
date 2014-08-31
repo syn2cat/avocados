@@ -23,16 +23,17 @@ class TheGame:
         # initialize the game canvas
         self.timeout = 30
         self.level = 1
+        self.psychomode = 3
         self.targetScore = 400
         ##############################
         # Never set below 4, else we have a high
         # probability of losing the game due to a missing color
         # Alternatively, you could edit chooseRandomColor()
         # to only work on the first multiplier colors
-        self.multiplier = 4
         self.desired_fps = 60
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.colors = [RED, GREEN, BLUE, YELLOW, PINK]
+        self.multiplier = len(self.colors)
         self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
         self.bg.set_colorkey((255,255,255))
         self.bg.set_alpha(75)
@@ -101,7 +102,7 @@ class TheGame:
 
 
     def chooseRandomColor(self):
-        selected = random.randint(0, 3)
+        selected = random.randint(0, len(self.colors) - 1)
         if len(self.last_colors) > 5:
             self.last_colors.pop(0)
         for i in range(0, 5):
@@ -115,7 +116,7 @@ class TheGame:
     def gameOver(self):
         screen_width, screen_height = self.screen.get_size()
         gameOverImage = pygame.image.load(os.path.join('img', 'gameOver.png'))
-        gameOverText = self.bigFont.render('GAME OVER', 0, YELLOW)
+        gameOverText = self.bigFont.render('GAME OVER', False, YELLOW)
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
         self.screen.blit(pygame.transform.scale(gameOverImage,
                          self.screen.get_size()), (0, 0))
@@ -159,7 +160,7 @@ class TheGame:
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
-        crystalBall = crystal.Crystal(self.screen)
+        crystalBall = crystal.Crystal(self.screen, self.level, self.bigFont, self.psychomode)
         boundaries.append(crystalBall.getBoundaries())
 
         # Initial color indication

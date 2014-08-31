@@ -10,7 +10,7 @@ class Text:
         self.clock = container['clock']
         self.duration = duration
         self.totalTime = 0
-        self.text = container['font'].render(text, 0 , WHITE)
+        self.text = container['font'].render(text, 0, WHITE)
         self.screen = container['screen']
         self.pos = pos
 
