@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
 
-import pygame, random
+import pygame, random, os
 from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, size, target, level, filename='img/AvoCado_0.png'):
+    def __init__(self, screen, color, size, target, level, filename=os.path.join('img', 'AvoCado_0_PINK.png')):
 
         # Set up our instance variables
         self.screen = screen
         self.color = color
+        self.avocados = {(255,0,0): os.path.join('img', 'AvoCado_0_RED.png'), \
+                         (0,255,0): os.path.join('img', 'AvoCado_0_GREEN.png'), \
+                         (0,0,255): os.path.join('img', 'AvoCado_0_BLUE.png'), \
+                         (255,255,0): os.path.join('img', 'AvoCado_0_YELLOW.png'), \
+                         (255,192,203): os.path.join('img', 'AvoCado_0_PINK.png')}
+        self.filename = self.avocados[self.color]
         self.target = target
         self.screen_width, self.screen_height = screen.get_size()
         self.w, self.y = size
 
         # Initialize the image
         self.i = pygame.image.load(filename).convert_alpha()
-        operations.color_surface(self.i, color)
+        self.i = pygame.image.load(self.filename)
         self.image = pygame.transform.scale(self.i, (self.w, self.y))
         self.rect = self.image.get_rect()
 

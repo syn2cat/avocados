@@ -25,7 +25,7 @@ class TheGame:
         self.level = 1
         self.targetScore = 400
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        self.colors = [BLUE, GREEN, RED, YELLOW]
+        self.colors = [RED, GREEN, BLUE, YELLOW, PINK]
         self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
         self.bg.set_colorkey((255,255,255))
         self.bg.set_alpha(75)
@@ -34,7 +34,7 @@ class TheGame:
         self.bigFont = pygame.font.Font(None, 90)
 
         # Set splashscreen
-        splashScreen = pygame.image.load("img/splashScreen.png")
+        splashScreen = pygame.image.load(os.path.join('img', 'splashScreen.png'))
         self.screen.blit(
             pygame.transform.scale(
                 splashScreen, (self.WIDTH, self.HEIGHT)
@@ -98,7 +98,7 @@ class TheGame:
 
     def gameOver(self):
         screen_width, screen_height = self.screen.get_size()
-        gameOverImage = pygame.image.load("img/gameOver.png")
+        gameOverImage = pygame.image.load(os.path.join('img', 'gameOver.png'))
         gameOverText = self.bigFont.render('GAME OVER', 0, YELLOW)
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
         self.screen.blit(pygame.transform.scale(gameOverImage,
