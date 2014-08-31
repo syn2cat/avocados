@@ -98,9 +98,9 @@ class Avocado:
 
 
     def hasLanded(self):
-        if self.rect.bottom > self.screen_height or self.rect.top < 0:
+        if self.rect.top > self.screen_height:
             self.is_still_falling = False
-            print('DEBUG :: splash!')
+            print('DEBUG :: splatch!')
             return True
 
 
