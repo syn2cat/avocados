@@ -5,20 +5,22 @@ from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, size, target, level, filename=os.path.join('img', 'AvoCado_0_PINK.png')):
+    def __init__(self, screen, boundaries, properties, target, level, filename=os.path.join('img', 'AvoCado_0_PINK.png')):
 
         # Set up our instance variables
         self.screen = screen
-        self.color = color
+        self.screen_width, self.screen_height = screen.get_size()
         self.avocados = {(255,0,0): os.path.join('img', 'AvoCado_0_RED.png'), \
                          (0,255,0): os.path.join('img', 'AvoCado_0_GREEN.png'), \
                          (0,0,255): os.path.join('img', 'AvoCado_0_BLUE.png'), \
                          (255,255,0): os.path.join('img', 'AvoCado_0_YELLOW.png'), \
                          (255,192,203): os.path.join('img', 'AvoCado_0_PINK.png')}
+        self.color = properties['color']
+        self.w, self.y = properties['size']
         self.filename = self.avocados[self.color]
         self.target = target
-        self.screen_width, self.screen_height = screen.get_size()
-        self.w, self.y = size
+        self.boundaries = boundaries
+        self.checkObstacle = True
 
         # Initialize the image
         self.i = pygame.image.load(filename).convert_alpha()
@@ -88,8 +90,25 @@ class Avocado:
 
 
     def checkBoundaries(self):
+        # Checking screen boundaries
         if self.rect.right > self.screen_width or self.rect.left < 0:
+            self.checkObstacle = True
             self.vx = -self.vx
+
+        # Checking for obstacle collisions
+        for obstacle in self.boundaries:
+            left, top, width, height = obstacle
+            right = left + width
+            bottom = top + height
+
+            if self.checkObstacle \
+             and (self.rect.right < right and self.rect.left > left):
+                self.checkObstacle = False
+
+            if self.checkObstacle \
+             and ((self.rect.right > right and self.rect.left < right) \
+             or (self.rect.left < left and self.rect.right > left)):
+                self.vx = -self.vx
 
 
     def move(self):
@@ -105,9 +124,9 @@ class Avocado:
 
 
     def hasLanded(self):
-        if self.rect.bottom > self.screen_height or self.rect.top < 0:
+        if self.rect.top > self.screen_height:
             self.is_still_falling = False
-            print('DEBUG :: splash!')
+            print('DEBUG :: splatch!')
             return True
 
 
