@@ -114,6 +114,7 @@ class TheGame:
         levelChange = 0
         score = 0
         targetScore = 400
+        pinnedAvocados = []
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
@@ -125,7 +126,7 @@ class TheGame:
 
         # We could use this list for redrawing only this part
         # of the screen install of all of it
-        avocados = []
+        movingAvocados = []
         running = True
 
         while running:
@@ -142,10 +143,10 @@ class TheGame:
                 level += 1
                 levelChange = 70
                 timeleft = time
-                avocados = []
                 print('DEBUG :: Score: ' + str(score))
                 print('DEBUG :: Level ' + str(level))
                 self.playLevel(level)
+                pinnedAvocados = []
 
             if levelChange > 0:
                 levelText = self.bigFont.render('Level ' + str(level), 0, WHITE)
@@ -165,22 +166,25 @@ class TheGame:
             # If we're not currently in between levels…
             if levelChange == 0:
                 # Initialize a number of avocados, depending on the level
-                avocados_in_game = len(avocados)
+                avocadosInGame = len(movingAvocados)
                 avocadosWanted = level * multiplier
-                if avocados_in_game < avocadosWanted:
-                    for i in range(avocados_in_game, avocadosWanted):
+                if avocadosInGame < avocadosWanted:
+                    for i in range(avocadosInGame, avocadosWanted):
                         avocolor = self.chooseRandomColor()
                         avosize = (50, 50)   # should we randomize this?
                         a = avocado.Avocado(self.screen, avocolor, avosize, color)
-                        avocados.append(a)
+                        movingAvocados.append(a)
 
-                # Remove avocados from the list if they no longer exist
-                # E.g. have been pinned or fallen down
-                avocados[:] = [ x for x in avocados if x.exists() ]
-                for a in avocados:
+                pinnedAvocados += [avo for avo in movingAvocados if avo.isPinned() ]
+                # Remove avocados from the list of moving avocados if they no longer move
+                movingAvocados[:] = [ avo for avo in movingAvocados if avo.isFalling() ]
+
+                for a in movingAvocados:
                     a.setTargetColor(color)
-                    if not a.isPinned():
-                        a.move()
+                    a.move()
+                    a.blitme()
+
+                for a in pinnedAvocados:
                     a.blitme()
 
             # Catch events
@@ -191,7 +195,7 @@ class TheGame:
                     # Throw a pin here
                     # pin.throwAt(mousepos)
                     # Yep, above here
-                    for avo in avocados:
+                    for avo in movingAvocados:
                         hit = avo.isHit(mousepos)
                         if hit:
                             score += 100

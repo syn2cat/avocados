@@ -70,14 +70,14 @@ class Avocado:
 
             if self.color == self.target:
                 self.has_been_pinned = True
+                self.is_still_falling = False
                 return True
             else:
                 return False
 
 
-    def exists(self):
-        return not self.has_been_pinned and self.is_still_falling
-        # return self.is_still_falling
+    def isFalling(self):
+        return self.is_still_falling
 
 
     def isPinned(self):
