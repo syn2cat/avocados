@@ -36,6 +36,7 @@ class TheGame:
         self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
         self.bg.set_colorkey((255,255,255))
         self.bg.set_alpha(75)
+        self.last_colors = []
 
         # fonts
         self.bigFont = pygame.font.Font(None, 90)
@@ -101,8 +102,15 @@ class TheGame:
 
     def chooseRandomColor(self):
         selected = random.randint(0, 3)
+        if len(self.last_colors) > 5:
+            self.last_colors.pop(0)
+        for i in range(0, 5):
+            if selected in self.last_colors:
+                selected = random.randint(0, 3)
+            else:
+                break
+        self.last_colors.append(selected)
         return self.colors[selected]
-
 
     def gameOver(self):
         screen_width, screen_height = self.screen.get_size()
