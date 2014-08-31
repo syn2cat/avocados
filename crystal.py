@@ -24,7 +24,6 @@ class Crystal:
 
     def blitme(self):
         pygame.draw.ellipse(self.screen, self.color, self.pos, 0)
-        pygame.draw.rect(self.screen, WHITE, self.pos, 2)
 
 
     def setColor(self, color):
