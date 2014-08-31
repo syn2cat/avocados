@@ -35,7 +35,7 @@ class TheGame:
         # fonts
         self.bigFont = pygame.font.Font(None, 90)
 
-		# Set splashscreen
+        # Set splashscreen
         splashScreen = pygame.image.load("img/splashScreen.png")
         self.screen.blit(pygame.transform.scale(splashScreen, self.size), (0, 0))
         pygame.display.flip()
@@ -108,7 +108,11 @@ class TheGame:
     def main(self):
         clock = pygame.time.Clock()
         desired_fps = 60
-        multiplier = 3
+        # Never set below 4, else we have a high
+        # probability of losing the game due to a missing color
+        # Alternatively, you could edit chooseRandomColor()
+        # to only work on the first multiplier colors
+        multiplier = 4
         time = timeleft = 30
         level = 1
         levelChange = 0
@@ -169,10 +173,11 @@ class TheGame:
                 avocadosInGame = len(movingAvocados)
                 avocadosWanted = level * multiplier
                 if avocadosInGame < avocadosWanted:
-                    for i in range(avocadosInGame, avocadosWanted):
+                    probability = int(1.0/(avocadosWanted - avocadosInGame) * 100)
+                    if random.randint(0, probability) < 3:
                         avocolor = self.chooseRandomColor()
                         avosize = (50, 50)   # should we randomize this?
-                        a = avocado.Avocado(self.screen, avocolor, avosize, color)
+                        a = avocado.Avocado(self.screen, avocolor, avosize, color, level)
                         movingAvocados.append(a)
 
                 pinnedAvocados += [avo for avo in movingAvocados if avo.isPinned() ]

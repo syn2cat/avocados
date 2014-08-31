@@ -5,16 +5,7 @@ from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, size, target, filename='img/AvoCado_0.png'):
-
-        # HELP please!!
-        # We randomly decide whether we should instanciate or not
-        # I'd rather just not return an instance,
-        # but I don't know how to do that :(
-        if random.randint(0,40) != 1:
-            self.is_still_falling = False
-            self.has_been_pinned = False
-            return None
+    def __init__(self, screen, color, size, target, level, filename='img/AvoCado_0.png'):
 
         # Set up our instance variables
         self.screen = screen
@@ -32,7 +23,7 @@ class Avocado:
         # Set the avocado's initial position and velocity
         self.init_pos()
         self.vx = 2
-        self.vy = 4
+        self.vy = 4 * (level * 0.5)
 
         # Avocado state
         self.is_still_falling = True
