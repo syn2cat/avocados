@@ -10,7 +10,7 @@ class Avocado:
         # Set up our instance variables
         self.screen = screen
         self.screen_width, self.screen_height = screen.get_size()
-        color = properties['color']
+        self.color = properties['color']
         self.w, self.y = properties['size']
         self.target = target
         self.boundaries = boundaries
@@ -18,7 +18,7 @@ class Avocado:
 
         # Initialize the image
         self.i = pygame.image.load(filename).convert_alpha()
-        operations.color_surface(self.i, color)
+        operations.color_surface(self.i, self.color)
         self.image = pygame.transform.scale(self.i, (self.w, self.y))
         self.rect = self.image.get_rect()
 
