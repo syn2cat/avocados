@@ -122,6 +122,8 @@ class Avocado:
             if self.hasLanded():
                 self.destroy()
 
+            # Ah, weird…
+            # self.image = pygame.transform.rotate(self.image, 1)
             self.rect.x += self.vx
             self.rect.y += self.vy
         return True
