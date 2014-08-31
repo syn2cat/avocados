@@ -5,14 +5,16 @@ from support import operations
 
 class Avocado:
 
-    def __init__(self, screen, color, size, target, level, filename='img/AvoCado_0.png'):
+    def __init__(self, screen, boundaries, properties, target, level, filename='img/AvoCado_0.png'):
 
         # Set up our instance variables
         self.screen = screen
-        self.color = color
-        self.target = target
         self.screen_width, self.screen_height = screen.get_size()
-        self.w, self.y = size
+        color = properties['color']
+        self.w, self.y = properties['size']
+        self.target = target
+        self.boundaries = boundaries
+        self.checkObstacle = True
 
         # Initialize the image
         self.i = pygame.image.load(filename).convert_alpha()
@@ -82,8 +84,25 @@ class Avocado:
 
 
     def checkBoundaries(self):
+        # Checking screen boundaries
         if self.rect.right > self.screen_width or self.rect.left < 0:
+            self.checkObstacle = True
             self.vx = -self.vx
+
+        # Checking for obstacle collisions
+        for obstacle in self.boundaries:
+            left, top, width, height = obstacle
+            right = left + width
+            bottom = top + height
+
+            if self.checkObstacle \
+             and (self.rect.right < right and self.rect.left > left):
+                self.checkObstacle = False
+
+            if self.checkObstacle \
+             and ((self.rect.right > right and self.rect.left < right) \
+             or (self.rect.left < left and self.rect.right > left)):
+                self.vx = -self.vx
 
 
     def move(self):
@@ -99,9 +118,9 @@ class Avocado:
 
 
     def hasLanded(self):
-        if self.rect.bottom > self.screen_height or self.rect.top < 0:
+        if self.rect.top > self.screen_height:
             self.is_still_falling = False
-            print('DEBUG :: splash!')
+            print('DEBUG :: splatch!')
             return True
 
 
