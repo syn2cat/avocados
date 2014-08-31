@@ -62,9 +62,9 @@ class Avocado:
             if self.color == self.target:
                 self.has_been_pinned = True
                 self.is_still_falling = False
-                return True
-            else:
-                return False
+                return True, self.rect.center
+        return False, (0, 0)
+
 
 
     def isFalling(self):

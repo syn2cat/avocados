@@ -226,9 +226,10 @@ class TheGame:
 
                     # Check if any avocados have been hit
                     for avo in movingAvocados:
-                        hit = avo.isHit(mousepos)
+                        hit, center = avo.isHit(mousepos)
                         if hit:
                             score += 100
+                            newPin.throwAt(center)
                             color = self.chooseRandomColor()
                             crystalBall.setColor(color)
                         elif hit == False:
