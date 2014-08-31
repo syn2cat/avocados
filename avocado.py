@@ -62,10 +62,10 @@ class Avocado:
                 self.has_been_pinned = True
                 self.is_still_falling = False
                 self.click.play()
-                return True
+                return True, self.rect.center
             else:
                 self.clickFail.play()
-                return False
+        return False, (0, 0)
         # BUG - isHit is called 4 times upon click which makes it return the
         # first time but fail the consecutive times
         #else:

@@ -13,11 +13,12 @@ class Generate:
         screen_width, screen_height = screen.get_size()
         self.pos = (screen_width / 2, screen_height)
         self.image = pygame.image.load(os.path.join('img','pin.png')).convert_alpha()
-
+        self.size = self.image.get_size()
 
     def throwAt(self, target):
         self.inFlight = True
-        self.target = target
+        x, y = target
+        self.target = (x, y - self.size[1])
 
 
     def isStuck(self):
@@ -28,7 +29,6 @@ class Generate:
 
     def blitme(self):
         self.screen.blit(self.image, self.pos)
-
 
     def moveTowardsTarget(self):
         ##############################

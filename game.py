@@ -106,7 +106,8 @@ class TheGame:
         gameOverImage = pygame.image.load("img/gameOver.png")
         gameOverText = self.bigFont.render('GAME OVER', 0, YELLOW)
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
-        self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
+        self.screen.blit(pygame.transform.scale(gameOverImage,
+                         self.screen.get_size()), (0, 0))
         pygame.display.flip()
         self.fadeSound()
         pygame.time.wait(3000)
@@ -257,9 +258,10 @@ class TheGame:
 
                     # Check if any avocados have been hit
                     for avo in self.movingAvocados:
-                        hit = avo.isHit(mousepos)
+                        hit, center = avo.isHit(mousepos)
                         if hit:
                             score += 100
+                            newPin.throwAt(center)
                             color = self.chooseRandomColor()
                             crystalBall.setColor(color)
                         elif hit == False:
