@@ -16,7 +16,7 @@ class Crystal:
         self.imageCenterY = self.screen.get_rect().centery
 
     def blitme(self):
-        pygame.draw.ellipse(self.screen, self.color, (self.imageCenterX-158,self.imageCenterY-5,277,217), 0)
+        pygame.draw.ellipse(self.screen, self.color, (self.imageCenterX-100,self.imageCenterY-5,200,183), 0)
 
     def setColor(self, color):
         self.color = color
