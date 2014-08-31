@@ -188,6 +188,16 @@ class TheGame:
                 pinnedAvocados += [avo for avo in movingAvocados if avo.isPinned() ]
                 movingAvocados[:] = [ avo for avo in movingAvocados if avo.isFalling() ]
 
+                ##############################
+                #
+                # Late-Night-Comments:
+                #
+                # Can we maybe handle the pinned avocados the same way I handle "stuck"
+                # pins? It seems to be easier.. well, the pins don't fall out of the screen
+                # though…
+                #
+                ##############################
+
                 # Now redraw our avocados
                 for a in movingAvocados:
                     a.setTargetColor(color)

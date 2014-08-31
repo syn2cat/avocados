@@ -31,10 +31,15 @@ class Generate:
 
 
     def moveTowardsTarget(self):
+        ##############################
+        #
+        # Late-Night-Comments:
+        #
         # OK, this works, but honestly,
         # it would probably be much more effective
         # to just be more lenient on isStuck
         # e.g. accept approximate positions.
+        ###############################
         x, y = self.pos
         tx, ty = self.target
         xToCover = tx - x;
