@@ -98,11 +98,15 @@ class Avocado:
             if self.checkObstacle \
              and (self.rect.right < right and self.rect.left > left):
                 self.checkObstacle = False
+                # print(self.rect.bottom, top)
+                # if self.rect.bottom > top:
+                #     self.vy = -self.vy
 
             if self.checkObstacle \
              and ((self.rect.right > right and self.rect.left < right) \
              or (self.rect.left < left and self.rect.right > left)):
-                self.vx = -self.vx
+                if self.rect.bottom > top:
+                    self.vx = -self.vx
 
 
     def move(self):

@@ -98,6 +98,7 @@ class TheGame:
             return
         pygame.mixer.music.fadeout(3000)
 
+
     def chooseRandomColor(self):
         selected = random.randint(0, 3)
         return self.colors[selected]
