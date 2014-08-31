@@ -62,10 +62,10 @@ class Avocado:
                 self.has_been_pinned = True
                 self.is_still_falling = False
                 self.click.play()
-                return True
+                return True, self.rect.center
             else:
                 self.clickFail.play()
-                return False
+        return False, (0, 0)
         # BUG - isHit is called 4 times upon click which makes it return the
         # first time but fail the consecutive times
         #else:
@@ -80,10 +80,14 @@ class Avocado:
         return self.has_been_pinned
 
 
+    def checkBoundaries(self):
+        if self.rect.right > self.screen_width or self.rect.left < 0:
+            self.vx = -self.vx
+
+
     def move(self):
         if not self.has_been_pinned:
-            if self.rect.right > self.screen_width or self.rect.left < 0:
-                self.vx = -self.vy
+            self.checkBoundaries()
 
             if self.hasLanded():
                 self.destroy()

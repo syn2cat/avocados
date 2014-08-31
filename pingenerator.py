@@ -13,22 +13,22 @@ class Generate:
         screen_width, screen_height = screen.get_size()
         self.pos = (screen_width / 2, screen_height)
         self.image = pygame.image.load(os.path.join('img','pin.png')).convert_alpha()
-
+        self.size = self.image.get_size()
 
     def throwAt(self, target):
         self.inFlight = True
-        self.target = target
+        x, y = target
+        self.target = (x, y - self.size[1])
 
 
     def isStuck(self):
         if self.pos == self.target:
-            print('Pin stuck!')
+            # print('Pin stuck!')
             return True
 
 
     def blitme(self):
         self.screen.blit(self.image, self.pos)
-
 
     def moveTowardsTarget(self):
         ##############################
@@ -70,9 +70,9 @@ class Generate:
 
         newy = y + ystep
 
-        print('DEBUG :: pin target: ' + str(tx) + ',' + str(ty))
-        print('DEBUG :: pin position: ' + str(newx) + ',' + str(newy))
-        print('DEBUG :: pin distance: ' + str(xToCover) + ',' + str(yToCover))
-        print('DEBUG :: pin speed: ' + str(self.vx) + ',' + str(self.vy))
-        print('')
+        # print('DEBUG :: pin target: ' + str(tx) + ',' + str(ty))
+        # print('DEBUG :: pin position: ' + str(newx) + ',' + str(newy))
+        # print('DEBUG :: pin distance: ' + str(xToCover) + ',' + str(yToCover))
+        # print('DEBUG :: pin speed: ' + str(self.vx) + ',' + str(self.vy))
+        # print('')
         self.pos = (newx, newy)
