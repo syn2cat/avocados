@@ -67,7 +67,8 @@ class Avocado:
                 return True, self.rect.center
             else:
                 self.clickFail.play()
-        return False, (0, 0)
+                return False, (0, 0)
+        return None, (0, 0)
         # BUG - isHit is called 4 times upon click which makes it return the
         # first time but fail the consecutive times
         #else:

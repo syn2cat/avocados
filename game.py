@@ -34,6 +34,8 @@ class TheGame:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.colors = [BLUE, GREEN, RED, YELLOW]
         self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
+        self.bg.set_colorkey((255,255,255))
+        self.bg.set_alpha(75)
 
         # fonts
         self.bigFont = pygame.font.Font(None, 90)
@@ -260,16 +262,27 @@ class TheGame:
                     # Check if any avocados have been hit
                     for avo in self.movingAvocados:
                         hit, center = avo.isHit(mousepos)
+                        if hit is None:
+                            continue
                         if hit:
                             score += 100
                             newPin.throwAt(center)
                             color = self.chooseRandomColor()
                             crystalBall.setColor(color)
-                        elif hit == False:
+                        else:
                             score -= 50
+
 
                 # Had enough of this?
                 if event.type == pygame.QUIT:
+                    running = False
+                    game.gameOver()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if pygame.key.get_pressed()[pygame.K_f] != 0:
+                        print("Toggling full screen, in the Future")
+                elif (pygame.key.get_pressed()[pygame.K_q] != 0) or (pygame.key.get_pressed()[pygame.K_ESCAPE] != 0):
                     running = False
                     game.gameOver()
                     pygame.quit()
