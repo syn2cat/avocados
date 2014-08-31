@@ -22,7 +22,7 @@ class Generate:
 
     def isStuck(self):
         if self.pos == self.target:
-            print('Pin stuck!')
+            # print('Pin stuck!')
             return True
 
 
@@ -70,9 +70,9 @@ class Generate:
 
         newy = y + ystep
 
-        print('DEBUG :: pin target: ' + str(tx) + ',' + str(ty))
-        print('DEBUG :: pin position: ' + str(newx) + ',' + str(newy))
-        print('DEBUG :: pin distance: ' + str(xToCover) + ',' + str(yToCover))
-        print('DEBUG :: pin speed: ' + str(self.vx) + ',' + str(self.vy))
-        print('')
+        # print('DEBUG :: pin target: ' + str(tx) + ',' + str(ty))
+        # print('DEBUG :: pin position: ' + str(newx) + ',' + str(newy))
+        # print('DEBUG :: pin distance: ' + str(xToCover) + ',' + str(yToCover))
+        # print('DEBUG :: pin speed: ' + str(self.vx) + ',' + str(self.vy))
+        # print('')
         self.pos = (newx, newy)
