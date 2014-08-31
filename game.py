@@ -140,6 +140,7 @@ class TheGame:
 
     def main(self):
         score = 0
+        boundaries = []
 
         # We could use this list for redrawing only this part
         # of the screen instead of all of it
@@ -148,6 +149,7 @@ class TheGame:
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
         crystalBall = crystal.Crystal(self.screen)
+        boundaries.append(crystalBall.getBoundaries())
 
         # Initial color indication
         color = self.chooseRandomColor()
@@ -203,13 +205,12 @@ class TheGame:
             if avocadosInGame < avocadosWanted:
                 probability = int(1.0/(avocadosWanted - avocadosInGame) * 100)
                 if random.randint(0, probability) < 3:
-                    avocolor = self.chooseRandomColor()
-                    avosize = (50, 50)   # should we randomize this?
+                    properties = {'color': self.chooseRandomColor(), 'size': (50,50)}
                     # Spawn a new avocado
                     a = avocado.Avocado(
                         self.screen,
-                        avocolor,
-                        avosize,
+                        boundaries,
+                        properties,
                         color,
                         self.level
                     )
