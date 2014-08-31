@@ -80,10 +80,14 @@ class Avocado:
         return self.has_been_pinned
 
 
+    def checkBoundaries(self):
+        if self.rect.right > self.screen_width or self.rect.left < 0:
+            self.vx = -self.vx
+
+
     def move(self):
         if not self.has_been_pinned:
-            if self.rect.right > self.screen_width or self.rect.left < 0:
-                self.vx = -self.vy
+            self.checkBoundaries()
 
             if self.hasLanded():
                 self.destroy()
