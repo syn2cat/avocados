@@ -6,8 +6,8 @@ class Generate:
 
     def __init__(self, screen):
         self.inFlight = False
-        self.vx = 20
-        self.vy = 20
+        self.vx = 40
+        self.vy = 40
 
         self.screen = screen
         screen_width, screen_height = screen.get_size()
