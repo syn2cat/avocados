@@ -31,6 +31,7 @@ class Avocado:
 
         # Avocado sounds
         self.click = self.loadClick()
+        self.clickFail = self.loadFailClick()
 
 
     def setTargetColor(self, targetColor):
@@ -57,14 +58,18 @@ class Avocado:
         if self.rect.left < mousex and self.rect.right > mousex and \
             self.rect.top < mousey and self.rect.bottom > mousey:
 
-            self.click.play()
-
             if self.color == self.target:
                 self.has_been_pinned = True
                 self.is_still_falling = False
+                self.click.play()
                 return True
             else:
+                self.clickFail.play()
                 return False
+        # BUG - isHit is called 4 times upon click which makes it return the
+        # first time but fail the consecutive times
+        #else:
+        #    self.clickFail.play()
 
 
     def isFalling(self):
@@ -99,6 +104,12 @@ class Avocado:
         if not sound:
             return
         return pygame.mixer.Sound("audio/click.wav")
+
+
+    def loadFailClick(self, sound=True):
+        if not sound:
+            return
+        return pygame.mixer.Sound("audio/poop.wav")
 
 
     def destroy(self):
