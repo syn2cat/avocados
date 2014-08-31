@@ -5,7 +5,7 @@ Avocados and stuff
 
 import os, random, sys
 import pygame
-import avocado, crystal, pingenerator
+import avocado, crystal, pingenerator, itext
 from pygame.locals import *
 from support.colors import *
 from interface import hud
@@ -17,18 +17,14 @@ class TheGame:
         """ Initialize the game """
         pygame.init()
         pygame.display.set_caption('Pin Avo, the Cado!')
-
-        displayInfo = pygame.display.Info()
-        self.resize = 1.3
-
-        self.WIDTH = int(displayInfo.current_w / self.resize)
-        self.HEIGHT = int(displayInfo.current_h / self.resize)
-
-        self.WIDTH, self.HEIGHT = 800, 600
+        self.clock = pygame.time.Clock()
+        self.initializeScreen()
 
         # initialize the game canvas
-        self.size = (self.WIDTH, self.HEIGHT)
-        self.screen = pygame.display.set_mode(self.size)
+        self.timeout = 30
+        self.level = 1
+        self.targetScore = 400
+        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.colors = [BLUE, GREEN, RED, YELLOW]
         self.bg = pygame.image.load(os.path.join('img', 'lawyerCrystalBall.png'))
 
@@ -37,7 +33,13 @@ class TheGame:
 
         # Set splashscreen
         splashScreen = pygame.image.load("img/splashScreen.png")
-        self.screen.blit(pygame.transform.scale(splashScreen, self.size), (0, 0))
+        self.screen.blit(
+            pygame.transform.scale(
+                splashScreen, (self.WIDTH, self.HEIGHT)
+            ),
+            (0, 0)
+        )
+
         pygame.display.flip()
         pygame.time.wait(3000)
 
@@ -48,6 +50,17 @@ class TheGame:
         except:
             print("Y U NO sound? :(")
             sound = False
+
+
+    def initializeScreen(self):
+        # displayInfo = pygame.display.Info()
+        # self.resize = 1.3
+
+        # self.WIDTH = int(displayInfo.current_w / self.resize)
+        # self.HEIGHT = int(displayInfo.current_h / self.resize)
+
+        # Look at the cleverness ;)
+        self.WIDTH, self.HEIGHT = 800, 600
 
 
     def mute(self,mute=False, sound=True):
@@ -82,7 +95,7 @@ class TheGame:
 
 
     def gameOver(self):
-        screen_width, screen_height = self.size
+        screen_width, screen_height = self.screen.get_size
         gameOverImage = pygame.image.load("img/gameOver.png")
         gameOverText = self.bigFont.render('GAME OVER', 0, YELLOW)
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
@@ -102,28 +115,35 @@ class TheGame:
         if type(self.bg) is tuple:
             self.screen.fill(self.bg)
         else:
-            self.screen.blit(pygame.transform.scale(self.bg, self.size), (0, 0))
+            self.screen.blit(
+                pygame.transform.scale(
+                    self.bg, self.screen.get_size()
+                ),
+                (0, 0)
+            )
+
+
+    def resetLevel(self):
+        self.pinnedAvocados = []
+        self.movingAvocados = []
+        self.thrownPins = []
+        self.timeleft = self.timeout
 
 
     def main(self):
-        clock = pygame.time.Clock()
         desired_fps = 60
+
+        ##############################
         # Never set below 4, else we have a high
         # probability of losing the game due to a missing color
         # Alternatively, you could edit chooseRandomColor()
         # to only work on the first multiplier colors
         multiplier = 4
-        time = timeleft = 30
-        level = 1
-        levelChange = 0
         score = 0
-        targetScore = 400
 
         # We could use this list for redrawing only this part
         # of the screen install of all of it
-        pinnedAvocados = []
-        movingAvocados = []
-        thrownPins = []
+        self.resetLevel()
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
@@ -133,85 +153,95 @@ class TheGame:
         color = self.chooseRandomColor()
         crystalBall.setColor(color)
 
+        texts = []
+        container = {'font': self.bigFont, 'screen': self.screen, 'clock': self.clock}
+        # onetext = itext.Text(container, 'Huhu', 2000)
+        # texts.append(onetext)
+
         running = True
         while running:
-            time_passed = clock.tick(desired_fps)
-            fps = clock.get_fps()
-            screen_width, screen_height = self.size
+            time_passed = self.clock.tick(desired_fps)
+            fps = self.clock.get_fps()
+            screen_width, screen_height = self.screen.get_size()
 
             # Redraw the background and put our lawyer back on top
             self.drawBackground()
             crystalBall.blitme()
 
             # Next level?
-            if score >= (targetScore * level):
-                level += 1
-                levelChange = 70
-                timeleft = time
-                print('DEBUG :: Score: ' + str(score))
-                print('DEBUG :: Level ' + str(level))
-                self.playLevel(level)
-                pinnedAvocados = []
-                movingAvocados = []
-                thrownPins = []
+            if score >= (self.targetScore * self.level):
+                self.level += 1
+                levelText = itext.Text(
+                    container,
+                    'Level ' + str(self.level),
+                    (screen_width / 3, screen_height /2),
+                    2000
+                )
+                texts.append(levelText)
+                # self.screen.blit(levelText, (screen_width / 3, screen_height / 2))
+                self.playLevel(self.level)
+                self.resetLevel()
 
-            if levelChange > 0:
-                levelText = self.bigFont.render('Level ' + str(level), 0, WHITE)
-                self.screen.blit(levelText, (screen_width / 3, screen_height / 2))
-                levelChange -= 1
 
-            timeleft -= time_passed / 1000
-            timeleft = round(timeleft, 2)
-            if timeleft <= 0:
+            self.timeleft -= time_passed / 1000
+            self.timeleft = round(self.timeleft, 2)
+            if self.timeleft <= 0:
                 self.gameOver()
             else:
-                displaytime = timeleft
+                displaytime = self.timeleft
+
+
+            # Check if there's any text that wants to get displayed
+            for text in texts:
+                text.blitme()
+                texts[:] = [text for text in texts if not text.hasExpired() ]
+
 
             # Redraw the HUD
             the_hud.draw_hud(score, displaytime, round(fps, 2))
 
-            # If we're not currently in between levels…
-            if levelChange == 0:
-                # Initialize a number of avocados, depending on the level
-                avocadosInGame = len(movingAvocados)
-                avocadosWanted = level * multiplier
-                if avocadosInGame < avocadosWanted:
-                    probability = int(1.0/(avocadosWanted - avocadosInGame) * 100)
-                    if random.randint(0, probability) < 3:
-                        avocolor = self.chooseRandomColor()
-                        avosize = (50, 50)   # should we randomize this?
-                        a = avocado.Avocado(self.screen, avocolor, avosize, color, level)
-                        movingAvocados.append(a)
+            # Initialize a number of avocados, depending on the level
+            avocadosInGame = len(self.movingAvocados)
+            avocadosWanted = self.level * multiplier
 
-                # Remove avocados from the list of moving avocados if they no longer move
-                # Or add them to the list of pinned avocados if they're been hit
-                pinnedAvocados += [avo for avo in movingAvocados if avo.isPinned() ]
-                movingAvocados[:] = [ avo for avo in movingAvocados if avo.isFalling() ]
+            if avocadosInGame < avocadosWanted:
+                probability = int(1.0/(avocadosWanted - avocadosInGame) * 100)
+                if random.randint(0, probability) < 3:
+                    avocolor = self.chooseRandomColor()
+                    avosize = (50, 50)   # should we randomize this?
+                    # Spawn a new avocado
+                    a = avocado.Avocado(self.screen, avocolor, avosize, color, self.level)
+                    self.movingAvocados.append(a)
 
-                ##############################
-                #
-                # Late-Night-Comments:
-                #
-                # Can we maybe handle the pinned avocados the same way I handle "stuck"
-                # pins? It seems to be easier.. well, the pins don't fall out of the screen
-                # though…
-                #
-                ##############################
+            # Remove avocados from the list of moving avocados if they no longer move
+            # Or add them to the list of pinned avocados if they're been hit
+            self.pinnedAvocados += [avo for avo in self.movingAvocados if avo.isPinned() ]
+            self.movingAvocados[:] = [ avo for avo in self.movingAvocados if avo.isFalling() ]
 
-                # Now redraw our avocados
-                for a in movingAvocados:
-                    a.setTargetColor(color)
-                    a.move()
-                    a.blitme()
+            ##############################
+            #
+            # Late-Night-Comments:
+            #
+            # Can we maybe handle the pinned avocados the same way I handle "stuck"
+            # pins? It seems to be easier.. well, the pins don't fall out of the screen
+            # though…
+            #
+            ##############################
 
-                for a in pinnedAvocados:
-                    a.blitme()
+            # Now redraw our avocados
+            for a in self.movingAvocados:
+                a.setTargetColor(color)
+                a.move()
+                a.blitme()
 
-                # And finally check if we need to redraw any pins
-                for activePin in thrownPins:
-                    activePin.blitme()
-                    if not activePin.isStuck():
-                        activePin.moveTowardsTarget()
+            for a in self.pinnedAvocados:
+                a.blitme()
+
+            # And finally check if we need to redraw any pins
+            for activePin in self.thrownPins:
+                activePin.blitme()
+                if not activePin.isStuck():
+                    activePin.moveTowardsTarget()
 
             # Catch events
             for event in pygame.event.get():
@@ -219,10 +249,10 @@ class TheGame:
                 if event.type == MOUSEBUTTONDOWN:
                     mousepos = pygame.mouse.get_pos()
 
-                    # Throw a pin here
+                    # Throwing a new pin
                     newPin = pingenerator.Generate(self.screen)
                     newPin.throwAt(mousepos)
-                    thrownPins.append(newPin)
+                    self.thrownPins.append(newPin)
 
                     # Check if any avocados have been hit
                     for avo in movingAvocados:
