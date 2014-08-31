@@ -7,15 +7,6 @@ class Avocado:
 
     def __init__(self, screen, color, size, target, filename='img/AvoCado_0.png'):
 
-        # HELP please!!
-        # We randomly decide whether we should instanciate or not
-        # I'd rather just not return an instance,
-        # but I don't know how to do that :(
-        if random.randint(0,40) != 1:
-            self.is_still_falling = False
-            self.has_been_pinned = False
-            return None
-
         # Set up our instance variables
         self.screen = screen
         self.color = color

@@ -168,7 +168,8 @@ class TheGame:
                 avocados_in_game = len(avocados)
                 avocadosWanted = level * multiplier
                 if avocados_in_game < avocadosWanted:
-                    for i in range(avocados_in_game, avocadosWanted):
+                    blah = int(1.0/(avocadosWanted - avocados_in_game) * 100)
+                    if random.randint(0, blah) == 1:
                         avocolor = self.chooseRandomColor()
                         avosize = (50, 50)   # should we randomize this?
                         a = avocado.Avocado(self.screen, avocolor, avosize, color)
