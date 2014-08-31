@@ -95,11 +95,12 @@ class TheGame:
 
 
     def gameOver(self):
-        screen_width, screen_height = self.screen.get_size
+        screen_width, screen_height = self.screen.get_size()
         gameOverImage = pygame.image.load("img/gameOver.png")
         gameOverText = self.bigFont.render('GAME OVER', 0, YELLOW)
         gameOverImage.blit(gameOverText, (screen_width/8, screen_height/7))
-        self.screen.blit(pygame.transform.scale(gameOverImage, self.size), (0, 0))
+        self.screen.blit(pygame.transform.scale(gameOverImage,
+                         self.screen.get_size()), (0, 0))
         pygame.display.flip()
         self.fadeSound()
         pygame.time.wait(3000)
@@ -255,7 +256,7 @@ class TheGame:
                     self.thrownPins.append(newPin)
 
                     # Check if any avocados have been hit
-                    for avo in movingAvocados:
+                    for avo in self.movingAvocados:
                         hit, center = avo.isHit(mousepos)
                         if hit:
                             score += 100
