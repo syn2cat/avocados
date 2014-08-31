@@ -5,7 +5,7 @@ Avocados and stuff
 
 import os, random, sys
 import pygame
-import avocado, crystal
+import avocado, crystal, pingenerator
 from pygame.locals import *
 from support.colors import *
 from interface import hud
@@ -118,7 +118,12 @@ class TheGame:
         levelChange = 0
         score = 0
         targetScore = 400
+
+        # We could use this list for redrawing only this part
+        # of the screen install of all of it
         pinnedAvocados = []
+        movingAvocados = []
+        thrownPins = []
 
         # initialize the HUD class and the lawyer
         the_hud = hud.Hud(self.screen)
@@ -128,11 +133,7 @@ class TheGame:
         color = self.chooseRandomColor()
         crystalBall.setColor(color)
 
-        # We could use this list for redrawing only this part
-        # of the screen install of all of it
-        movingAvocados = []
         running = True
-
         while running:
             time_passed = clock.tick(desired_fps)
             fps = clock.get_fps()
@@ -151,6 +152,8 @@ class TheGame:
                 print('DEBUG :: Level ' + str(level))
                 self.playLevel(level)
                 pinnedAvocados = []
+                movingAvocados = []
+                thrownPins = []
 
             if levelChange > 0:
                 levelText = self.bigFont.render('Level ' + str(level), 0, WHITE)
@@ -180,10 +183,12 @@ class TheGame:
                         a = avocado.Avocado(self.screen, avocolor, avosize, color, level)
                         movingAvocados.append(a)
 
-                pinnedAvocados += [avo for avo in movingAvocados if avo.isPinned() ]
                 # Remove avocados from the list of moving avocados if they no longer move
+                # Or add them to the list of pinned avocados if they're been hit
+                pinnedAvocados += [avo for avo in movingAvocados if avo.isPinned() ]
                 movingAvocados[:] = [ avo for avo in movingAvocados if avo.isFalling() ]
 
+                # Now redraw our avocados
                 for a in movingAvocados:
                     a.setTargetColor(color)
                     a.move()
@@ -192,14 +197,24 @@ class TheGame:
                 for a in pinnedAvocados:
                     a.blitme()
 
+                # And finally check if we need to redraw any pins
+                for activePin in thrownPins:
+                    activePin.blitme()
+                    if not activePin.isStuck():
+                        activePin.moveTowardsTarget()
+
             # Catch events
             for event in pygame.event.get():
                 # Collision detection
                 if event.type == MOUSEBUTTONDOWN:
                     mousepos = pygame.mouse.get_pos()
+
                     # Throw a pin here
-                    # pin.throwAt(mousepos)
-                    # Yep, above here
+                    newPin = pingenerator.Generate(self.screen)
+                    newPin.throwAt(mousepos)
+                    thrownPins.append(newPin)
+
+                    # Check if any avocados have been hit
                     for avo in movingAvocados:
                         hit = avo.isHit(mousepos)
                         if hit:
