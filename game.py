@@ -23,7 +23,7 @@ class TheGame:
         # initialize the game canvas
         self.timeout = 30
         self.level = 1
-        self.psychomode = 3
+        self.psychomode = 2
         self.targetScore = 400
         ##############################
         # Never set below 4, else we have a high
@@ -93,6 +93,31 @@ class TheGame:
         elif lvl >= 3:
             pygame.mixer.music.load("""audio/level3.wav""")
         pygame.mixer.music.play()
+
+    def toggle_fullscreen(self):
+        global fullS
+        fullS = True
+        self.screen = pygame.display.get_surface()
+        self.tmp = self.screen.convert()
+        self.caption = pygame.display.get_caption()
+        self.cursor = pygame.mouse.get_cursor()  # Duoas 16-04-2007
+
+        self.w,self.h = self.screen.get_width(),self.screen.get_height()
+        self.flags = self.screen.get_flags()
+        self.bits = self.screen.get_bitsize()
+
+        pygame.display.quit()
+        pygame.display.init()
+
+        self.screen = pygame.display.set_mode((self.w,self.h),self.flags^FULLSCREEN,self.bits)
+        self.screen.blit(self.tmp,(0,0))
+        pygame.display.set_caption(*self.caption)
+
+        pygame.key.set_mods(0) #HACK: work-a-round for a SDL bug??
+
+        pygame.mouse.set_cursor( *self.cursor )  # Duoas 16-04-2007
+
+        return self.screen
 
 
     def fadeSound(self, sound=True):
@@ -292,6 +317,7 @@ class TheGame:
                 elif event.type == pygame.KEYDOWN:
                     if pygame.key.get_pressed()[pygame.K_f] != 0:
                         print("Toggling full screen, in the Future")
+                        #game.toggle_fullscreen()
                 elif (pygame.key.get_pressed()[pygame.K_q] != 0) or (pygame.key.get_pressed()[pygame.K_ESCAPE] != 0):
                     running = False
                     game.gameOver()

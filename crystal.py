@@ -34,7 +34,7 @@ class Crystal:
 
     def blitme(self):
         myrect = pygame.draw.ellipse(self.screen, self.thecolor, self.pos, 0)
-        if self.level > self.psychomode:
+        if self.level >= self.psychomode:
             self.text = self.font.render(self.colorTexts[self.color], 0, WHITE)
             self.screen.blit(self.text, myrect)
 
@@ -42,7 +42,7 @@ class Crystal:
     def setColor(self, color):
         self.color = color
         self.thecolor = self.color
-        if self.level > self.psychomode:
+        if self.level >= self.psychomode:
             colors = [RED, GREEN, BLUE, YELLOW, PINK]
             self.thecolor = colors[random.randint(0,len(colors) - 1)]
 
