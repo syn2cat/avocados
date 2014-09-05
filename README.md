@@ -8,7 +8,7 @@
 
 ###Tools and Hardware used: <a href="https://en.wikipedia.org/wiki/Wacom_(company)#Intuos" target="_blank">Wacom </a><a href="http://www.wacom.com/en/de/creative/intuos-pro-m">Tablet</a>/<a href="https://www.adobe.com/lu_en/products/photoshop.html" target="_blank">Photoshop CC</a>, <a href="https://en.wikipedia.org/wiki/Ableton_Live" target="_blank">Ableton Live</a><a href="https://www.ableton.com/en/push/" target="_blank">Push</a>, <a href="https://en.wikipedia.org/wiki/Sublime_Text" target="_blank">Sublime</a>, <a href="https://en.wikipedia.org/wiki/Canon_EOS_6D" target="_blank">Canon 6D</a>
 
-###Team: <a href="https://twitter.com/kwisarts target="_blank">@kwisarts</a>, <a href="https://twitter.com/rafi0t target="_blank">@rafi0t, <a href="https://twitter.com/SteveClement target="_blank">@SteveClement</a> (Twitter)
+###Team: <a href="https://twitter.com/kwisarts" target="_blank">@kwisarts</a>, <a href="https://twitter.com/rafi0t" target="_blank">@rafi0t</a>, <a href="https://twitter.com/SteveClement" target="_blank">@SteveClement</a> (Twitter)
 
 ##Plot
 Imagine a world where Avo Cado could be free. A world where mushing around would be a thing of the past.
@@ -28,6 +28,9 @@ The only thing that changes is, READ the Color -> Click the Color…
 
 <a href="https://www.youtube.com/watch?v=JfUM5xHUY4M" target="_blank">moua mouaahah mouahahahaha</a>
 
+# Lauch
+
+Main launcher: game.py
 
 # Requirements
 
@@ -71,7 +74,7 @@ pip install hg+https://bitbucket.org/pygame/pygame
 ```
 
 
-##Windows
+##Windows (Currently failing on Windows 8.x numpy error)
 
 * https://www.python.org/downloads/ (3.4.x)
 * http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame (3.4 compatible)
