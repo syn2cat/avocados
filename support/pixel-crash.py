@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*- #
 
 # Move a single pixel around the screen without crashing against the borders.
 # (and exit the program once crashed)

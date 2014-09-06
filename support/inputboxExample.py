@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*- #
+
 # by Timothy Downs, inputbox written for my map editor
 
 # Edited to be python3 compatible by @SteveClement on Twitter

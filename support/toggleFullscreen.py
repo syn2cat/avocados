@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*- #
+
 import sys
 from colors import *
 from screen import *

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*- #
+
 import pygame
 
 def color_surface(surface, color):
