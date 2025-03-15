@@ -43,36 +43,29 @@ Main launcher: game.py
 #### Install HomeBrew
 
 ```
-ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 #### Install dependencies
 
 ```
-brew install python3 mercurial git sdl sdl_image sdl_mixer sdl_ttf portmidi
-brew tap homebrew/headonly
-brew install --HEAD smpeg
-/usr/local/bin/pip3 install hg+http://bitbucket.org/pygame/pygame
+brew install python3 git sdl2 sdl2_image sdl2_mixer sdl2_ttf portmidi smpeg
+python3 -m venv venv
+source ./venv/bin/activate
+pip install -U wheel cython pip setuptools numpy
+pip install git+https://github.com/pygame/pygame.git
 ```
 
 ### Linux 
 
 ```bash
-sudo apt-get install mercurial
 sudo apt-get install python3-dev python3-numpy libsdl-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev libportmidi-dev libavformat-dev libswscale-dev libjpeg-dev libfreetype6-dev
-hg clone https://bitbucket.org/pygame/pygame
-cd pygame
-python3 setup.py build
-sudo python3 setup.py install
+python3 -m venv venv
+source ./venv/bin/activate
+pip install -U wheel cython pip setuptools numpy
+pip install git+https://github.com/pygame/pygame.git
+git clone https://github.com/pygame/pygame.git
 ```
-
-#### using pip (currently not working due to C90 non-compliance)
-```bash
-sudo apt-get install mercurial
-sudo apt-get install python3-dev python3-numpy libsdl-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev libportmidi-dev libavformat-dev libswscale-dev libjpeg-dev libfreetype6-dev
-pip install hg+https://bitbucket.org/pygame/pygame
-```
-
 
 ### Windows (Currently failing on Windows 8.x numpy error)
 
