@@ -6,6 +6,10 @@
 
 ## Language: python3+pygame
 
+## Testing
+
+Tested working on MacOS 15.3.2, Python 3.9.6, pygame 2.6.1.dev1 (SDL 2.32.2, Python 3.9.6)
+
 ## Tools and Hardware used: <a href="https://en.wikipedia.org/wiki/Wacom_(company)#Intuos" target="_blank">Wacom </a><a href="http://www.wacom.com/en/de/creative/intuos-pro-m">Tablet</a>/<a href="https://www.adobe.com/lu_en/products/photoshop.html" target="_blank">Photoshop CC</a>, <a href="https://en.wikipedia.org/wiki/Ableton_Live" target="_blank">Ableton Live</a><a href="https://www.ableton.com/en/push/" target="_blank">Push</a>, <a href="https://en.wikipedia.org/wiki/Sublime_Text" target="_blank">Sublime</a>, <a href="https://en.wikipedia.org/wiki/Canon_EOS_6D" target="_blank">Canon 6D</a>
 
 ## Team: <a href="https://twitter.com/kwisarts" target="_blank">@kwisarts</a>, <a href="https://twitter.com/rafi0t" target="_blank">@rafi0t</a>, <a href="https://twitter.com/SteveClement" target="_blank">@SteveClement</a> (Twitter)
